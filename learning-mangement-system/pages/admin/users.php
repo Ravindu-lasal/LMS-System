@@ -4,14 +4,13 @@ include_once "../../inc/db_connect.php";
 $sql = "SELECT * FROM users";
 $users = mysqli_query($conn, $sql);
 
-if ($_POST["id"]) {
+if (isset($_POST["id"])) {
     $id = $_POST["id"];
-}
 
-if ($id) {
     $sql = "DELETE FROM users WHERE id=$id";
     $conn->query($sql);
 }
+
 
 
 ?>
