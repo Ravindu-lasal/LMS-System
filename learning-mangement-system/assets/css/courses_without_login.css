@@ -1,0 +1,231 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+}
+
+/* Header */
+header {
+    background-color: #007bff;
+    padding: 10px;
+    color: white;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    max-width: 120px;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.auth-buttons .signin {
+    background-color: white;
+    color: #007bff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-buttons .signin:hover {
+    background-color: #f8f9fa;
+    color: #0056b3;
+}
+
+/* Course Cards */
+.content {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.course-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.course-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;  /* Ensures that the image fits within the rounded corners */
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Course Card Image */
+.card-image {
+    width: 100%;   /* Makes the image fill the entire width of the card */
+    height: 150px; /* Sets a fixed height for consistency */
+    object-fit: cover; /* Ensures the image fits within the defined height */
+}
+
+/* Card Content */
+.course-card .card-content h3 {
+    font-size: 20px;
+    margin-top: 10px; /* Adjust margin to make space for the image */
+    color: #007bff;
+}
+
+.course-card .card-content p {
+    color: #555;
+    padding: 0 10px;
+}
+
+.course-card .btn {
+    display: inline-block;
+    background-color: #0077b6; /* Blue color */
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Adds a smooth transition effect */
+    width: 100%;
+}
+
+.course-card .btn:hover {
+    background-color: #005f87; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+
+/* Footer */
+.footer {
+    background-color: #1a2d41; /* Light background color */
+    color: #ffffff; /* Dark text color */
+    padding: 40px 20px; /* Padding around the footer */
+}
+
+.footer .container {
+    display: flex; /* Use Flexbox for layout */
+    justify-content: space-between; /* Space between items */
+    align-items: flex-start; /* Align items at the top */
+}
+
+.footer h5 {
+    margin-bottom: 15px; /* Space below headings */
+    font-size: 18px; /* Font size for headings */
+    font-weight: bold; /* Bold headings */
+}
+
+.footer ul {
+    list-style-type: none; /* Remove bullet points from lists */
+    padding: 0; /* Remove padding from lists */
+}
+
+.footer ul li {
+    margin-bottom: 10px; /* Space between list items */
+}
+
+.footer ul li a {
+    color: #ffffff; /* Dark text color for links */
+    text-decoration: none; /* Remove underline from links */
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover colors for social media icons */
+.footer .social-media a:hover {
+    color: #3b5998; /* Facebook blue on hover */
+}
+
+.footer .social-media a:nth-child(2):hover { 
+    color: #000000; /* X (Twitter) black on hover */
+}
+
+.footer .social-media a:nth-child(3):hover { 
+    background-image: linear-gradient(to right, #ff0080, #ff8c00); /* Instagram purple gradient on hover */
+}
+
+.footer .social-media a:nth-child(4):hover { 
+    color: #0077b5; /* LinkedIn light blue on hover */
+}
+
+.footer .social-media a:nth-child(5):hover { 
+    color: #333333; /* GitHub dark gray on hover */
+}
+
+.footer p {
+    margin-top: 20px; /* Space above copyright notice */
+    align-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .footer .container {
+        flex-direction: column; /* Stack items vertically on small screens */
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer .social-media a {
+        margin-right: 10px; /* Reduce space between icons on small screens */
+        margin-bottom: 5px; /* Add space below each icon on small screens */
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .course-cards {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .auth-buttons .signin {
+        padding: 8px 12px;
+    }
+
+    .card-image {
+        height: 120px; /* Adjust the image height for smaller screens */
+    }
+}

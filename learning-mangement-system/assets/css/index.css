@@ -1,0 +1,378 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #2c3e50;
+    padding: 15px 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo img {
+    height: 50px; /* Adjust based on your logo */
+}
+
+/* Navigation Links */
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin-right: 20px;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.nav-links li a:hover {
+    color: #3498db;
+}
+
+/* Sign In and Sign Up Buttons */
+.auth-buttons {
+    display: flex;
+}
+
+.auth-buttons .btn {
+    text-decoration: none;
+    padding: 10px 20px;
+    margin-left: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.auth-buttons .signin {
+    background-color: #3498db;
+    color: white;
+}
+
+.auth-buttons .signup {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.auth-buttons .btn:hover {
+    opacity: 0.8;
+}
+
+/* Content Section */
+.content {
+    text-align: center;
+    padding: 50px 20px; /* Adjust padding for mobile responsiveness */
+}
+
+.content h2 {
+    font-size: 36px; /* Adjust for course section title */
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Slider Styles */
+.slider-container {
+    position: relative;
+    height: 400px; /* Adjust based on the height you want */
+    overflow: hidden;
+}
+
+.slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slide:nth-child(1) {
+    opacity: 1; /* Show the first slide by default */
+}
+
+/* Text Overlaid on the Slider */
+.slider-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.274); /* White with 27% opacity */
+    z-index: 5; /* Ensure it's above the images but below the text */
+}
+
+.slider-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 10; /* Ensure text is above the slider */
+}
+
+.slider-text h1 {
+    font-size: 50px;
+}
+
+.slider-text p {
+    font-size: 20px;
+}
+
+/* Course Cards Styles */
+.course-cards {
+    display: flex; /* Use flexbox for horizontal layout */
+    justify-content: space-between; /* Space between cards */
+    padding: 20px; 
+    max-width: 1200px; 
+    margin: auto; 
+    flex-wrap: wrap; /* Allow wrapping if there are too many cards */
+}
+
+.course-card {
+    background-color: #fff; /* White background */
+    border: 2px solid #3498db; /* Blue border */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    width: calc(30% - 20px); /* Set width for three cards in a row with space for margins */
+    text-align: center;
+    margin: 10px; /* Space between cards */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.course-card img {
+    width: 100%; /* Full width image */
+    border-radius: 12px 12px 0; /* Rounded corners on top */
+}
+
+.card-content {
+    padding: 15px; /* Padding inside the card content */
+}
+
+.course-card h3 {
+    font-size: 24px;
+    color: #333;
+    margin: 10px 0;
+}
+
+.course-card p {
+    font-size: 16px;
+    color: #666;
+}
+
+/* Hover Effects */
+.course-card:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.services-section {
+    background-color: #f9f9f9; /* Light background for contrast */
+    padding: 50px 20px; /* Padding for spacing */
+    text-align: center; /* Align text to the left */
+}
+
+.services-section h2 {
+    font-size: 36px; /* Title size */
+    color: #2c3e50; /* Dark color for title */
+    margin-bottom: 20px; /* Space below title */
+}
+
+.services-container {
+    max-width: 800px; /* Max width of container */
+    margin: auto; /* Center container horizontally */
+}
+
+.service-card {
+    background-color: #fff; /* White background for cards */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    margin-bottom: 20px; /* Space between cards */
+    transition: transform .3s ease, box-shadow .3s ease; /* Transition effects */
+}
+
+.service-header {
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    padding: 15px; /* Padding inside header */
+}
+
+.dropdown-arrow {
+    margin-right: 10px; /* Space between arrow and title */
+}
+
+.service-description {
+    display: none; /* Initially hide the description */
+    padding: 15px; /* Padding inside description */
+    color: #666; /* Gray color for description text */
+}
+
+/* Hover Effects for Service Cards */
+.service-card:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .service-card {
+        width: calc(100% - 20px); /* Full width on smaller screens */
+        margin-bottom: 20px; /* Space below each card on mobile */
+    }
+}
+
+.crew-section {
+    background-color: #ffffff; /* Light background for contrast */
+    padding: 50px 20px; /* Padding for spacing */
+    text-align: center; /* Center align text */
+}
+
+.crew-section h2 {
+    font-size: 36px; /* Title size */
+    color: #2c3e50; /* Dark color for title */
+    margin-bottom: 40px; /* Space below title */
+}
+
+.crew-container {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-around; /* Space between crew members */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    max-width: 1200px; /* Max width of container */
+    margin: auto; /* Center container horizontally */
+}
+
+.crew-member {
+    background-color: #ffffff; /* White background for member card */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    margin: 10px; /* Space around each member card */
+    padding: 20px; /* Inner padding for content */
+    width: 200px; /* Fixed width for member cards */
+    height: 300px; /* Fixed height for member cards */
+    display: flex; /* Use flexbox to align content vertically */
+    flex-direction: column; /* Stack content vertically */
+    align-items: center; /* Center items horizontally */
+}
+
+.profile-photo {
+    width: 100px; /* Set width for profile photos */
+    height: 100px; /* Set height for profile photos */
+    border-radius: 50%; /* Make photos circular */
+    object-fit: cover; /* Ensure images cover the area without distortion */
+}
+
+.crew-member h3 {
+    font-size: 24px; /* Font size for member names */
+    margin-top: 15px; /* Space above name */
+}
+
+.crew-member p {
+    font-size: 16px; /* Font size for positions */
+    color: #00000065; /* Gray color for position text */
+}
+
+.footer {
+    background-color: #1a2d41; /* Light background color */
+    color: #ffffff; /* Dark text color */
+    padding: 40px 20px; /* Padding around the footer */
+}
+
+.footer .container {
+    display: flex; /* Use Flexbox for layout */
+    justify-content: space-between; /* Space between items */
+    align-items: flex-start; /* Align items at the top */
+}
+
+.footer h5 {
+    margin-bottom: 15px; /* Space below headings */
+    font-size: 18px; /* Font size for headings */
+    font-weight: bold; /* Bold headings */
+}
+
+.footer ul {
+    list-style-type: none; /* Remove bullet points from lists */
+    padding: 0; /* Remove padding from lists */
+}
+
+.footer ul li {
+    margin-bottom: 10px; /* Space between list items */
+}
+
+.footer ul li a {
+    color: #ffffff; /* Dark text color for links */
+    text-decoration: none; /* Remove underline from links */
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover colors for social media icons */
+.footer .social-media a:hover {
+    color: #3b5998; /* Facebook blue on hover */
+}
+
+.footer .social-media a:nth-child(2):hover { 
+    color: #000000; /* X (Twitter) black on hover */
+}
+
+.footer .social-media a:nth-child(3):hover { 
+    background-image: linear-gradient(to right, #ff0080, #ff8c00); /* Instagram purple gradient on hover */
+}
+
+.footer .social-media a:nth-child(4):hover { 
+    color: #0077b5; /* LinkedIn light blue on hover */
+}
+
+.footer .social-media a:nth-child(5):hover { 
+    color: #333333; /* GitHub dark gray on hover */
+}
+
+.footer p {
+    margin-top: 20px; /* Space above copyright notice */
+    align-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .footer .container {
+        flex-direction: column; /* Stack items vertically on small screens */
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer .social-media a {
+        margin-right: 10px; /* Reduce space between icons on small screens */
+        margin-bottom: 5px; /* Add space below each icon on small screens */
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) { 
+   .course-cards { 
+       flex-direction: column; /* Stack cards on smaller screens */ 
+       align-items: center; 
+   }
+
+   .course-card { 
+       width: 80%; /* Adjust card width on smaller screens */ 
+       margin-bottom: 20px; /* Add space between cards */ 
+   }
+}
+
+
