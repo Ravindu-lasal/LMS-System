@@ -1,39 +1,10 @@
-<?php
-
-session_start();
-include_once '../inc/db_connect.php';
-
-if (isset($_SESSION['lec_id'])) {
-    $lecturer_id = $_SESSION['lec_id'];
-
-    // Fetch lecturer details from the database
-    $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
-    $stmt->bind_param("i", $lecturer_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $lecturer = $result->fetch_assoc();
-    } else {
-        echo "No lecturer found with the given ID.";
-        exit;
-    }
-
-    $stmt->close();
-} else {
-    echo "No lecturer is logged in.";
-}
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lecturer Dashboard</title>
+    <title>Dashboard Subject</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
@@ -155,56 +126,79 @@ if (isset($_SESSION['lec_id'])) {
             justify-content: space-between;
         }
 
-        .lec-info h1 {
+        .subject {
+            background-color: #f44336;
+            color: white;
+            padding: 30px;
             font-size: 30px;
-            margin-bottom: 40px;
-        }
-
-        .lec-info h2 {
-            font-size: 24px;
-            margin-bottom: 40px;
-        }
-
-        .lec-info p {
-            font-size: 16px;
+            font-weight: bold;
+            margin: 40px;
+            margin-left: 630px;
+            margin-right: 705px;
+            border-radius: 15px;
             margin-bottom: 20px;
         }
 
-        .subject-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-gap: 20px;
-            margin-top: 150px;
-            align-self: flex-start;
-            margin-left: auto;
+        .button-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 80px;
         }
 
-        .subject {
-
-            padding: 20px;
-            width: 200px;
-            border: none;
-            font-size: 25px;
+        .button1 {
+            background-color: darkblue;
+            padding: 30px;
+            font-size: 20px;
             font-weight: bold;
+            border-radius: 20px;
+            margin: 40px;
+            border-color: white;
             color: white;
-            cursor: pointer;
+            margin-bottom: 50px;
+
         }
 
-        .subject-buttons :hover {
-            font-size: 27px;
-            background-color: darkred;
+        .button2 {
+            background-color: darkblue;
+            padding: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 20px;
+            margin: 40px;
+            border-color: white;
+            color: white;
+            margin-bottom: 50px;
         }
 
-        .subject.red {
+        .button3 {
+            background-color: darkblue;
+            padding: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 20px;
+            margin: 40px;
+            border-color: white;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .button4 {
+            background-color: darkblue;
+            padding: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 20px;
+            margin: 40px;
+            border-color: white;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .button-container :hover {
             background-color: red;
-        }
-
-        .subject.black {
-            background-color: black;
-        }
-
-        .subject.blue {
-            background-color: blue;
+            cursor: pointer;
         }
 
         /* Footer Styles (keep existing styles) */
@@ -214,8 +208,10 @@ if (isset($_SESSION['lec_id'])) {
             /* Light background color */
             color: #ffffff;
             /* Dark text color */
-            padding: 40px 20px;
-            /* Padding around the footer */
+            padding: 20px 20px;
+            /* Reduced padding to minimize space */
+            height: auto;
+            /* Remove fixed height, let the content determine height */
         }
 
         .footer .container {
@@ -225,11 +221,13 @@ if (isset($_SESSION['lec_id'])) {
             /* Space between items */
             align-items: flex-start;
             /* Align items at the top */
+            flex-wrap: wrap;
+            /* Allow the content to wrap in case of smaller screens */
         }
 
         .footer h5 {
-            margin-bottom: 15px;
-            /* Space below headings */
+            margin-bottom: 10px;
+            /* Reduced space below headings */
             font-size: 18px;
             /* Font size for headings */
             font-weight: bold;
@@ -244,8 +242,8 @@ if (isset($_SESSION['lec_id'])) {
         }
 
         .footer ul li {
-            margin-bottom: 10px;
-            /* Space between list items */
+            margin-bottom: 8px;
+            /* Reduced space between list items */
         }
 
         .footer ul li a {
@@ -257,7 +255,6 @@ if (isset($_SESSION['lec_id'])) {
             /* Smooth transition for hover effect */
         }
 
-        /* Hover colors for social media icons in footer*/
         .footer .social-media a:hover {
             color: #3b5998;
         }
@@ -279,11 +276,12 @@ if (isset($_SESSION['lec_id'])) {
         }
 
         .footer p {
-            margin-top: 20 px;
+            margin-top: 10px;
+            /* Reduced margin at the bottom */
         }
 
-        /* Responsive adjustments for smaller screens*/
-        @media (max-width :768px) {
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
             .footer .container {
                 flex-direction: column;
                 align-items: center;
@@ -291,78 +289,140 @@ if (isset($_SESSION['lec_id'])) {
             }
 
             .footer .social-media a {
-                margin-right: 10 px;
-                margin-bottom: 5 px;
+                margin-right: 10px;
+                margin-bottom: 5px;
             }
         }
     </style>
+
 </head>
 
 <body>
 
     <header>
         <div class="navbar">
-            <div class="logo"><img src="../assets/LMS_logo re.jpg" alt="Logo"></div>
+            <div class="logo"><img src="../assets/LMS_logo re.jpg"></div>
             <ul class="nav-links">
                 <li><a href="index.php">Home</a></li>
                 <li><a href="#">Courses</a></li>
                 <li><a href="#">About</a></li>
-                <li><a href="..\pages\contact.php">Contact</a></li>
+                <li><a href="contact.php">Contact</a></li>
             </ul>
             <div class="auth-buttons">
-                <a href="../inc/logout.php" class="btn logout">Log Out</a>
+                <a href="#" class="btn logout">Log Out</a>
 
             </div>
         </div>
     </header>
 
-
-    <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <ul>
-                <li><a href="time_table.php">Time Table</a></li>
-                <li><a href="#">Attendance</a></li>
-                <li><a href="#">Library</a></li>
-                <li><a href="#">Results</a></li>
-                <li><a href="lecturer_details.php">Lecturers</a></li>
-            </ul>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- lec Info -->
-            <div class="lec-info">
-                <p><strong>Full Name:</strong> <?php echo htmlspecialchars($lecturer['fullname']); ?></p>
-                <p><strong>Address:</strong> <?php echo htmlspecialchars($lecturer['address']); ?></p>
-                <p><strong>Email:</strong> <?php echo htmlspecialchars($lecturer['email']); ?></p>
-                <p><strong>Contact:</strong> <?php echo htmlspecialchars($lecturer['contact']); ?></p>
-                <p><strong>Register Date:</strong> <?php echo htmlspecialchars($lecturer['create_date']); ?></p>
-            </div>
-
-            <!-- Subject Buttons -->
-            <div class="subject-buttons">
-                <?php
-                include_once "../inc/db_connect.php";
-                $sql = "SELECT * FROM subject";
-                $result = $conn->query($sql);
-
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<a href="stu_dash_subject.php?subject=' . $row['subject_id'] . '"><button type="button" button class="subject red">' . $row['subject_name'] . '</button></a>';
-                    }
-                } else {
-                    echo "No subjects available";
-                }
-                $conn->close();
-                ?>
-            </div>
-        </div>
+    <div class="subject">STATICS</div>
+    <div class="button-container">
+        <button class="button1">Lec Material</button>
+        <button class="button2">Pass Papers</button>
+        <button class="button3">Model Papers</button>
+        <button class="button4">Learning resources</button>
     </div>
+    <div>
+        <style>
+            .custom-form {
+                max-width: 400px;
+                margin: 40px auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                background-color: #f9f9f9;
+            }
+
+            .custom-form .form-group {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .custom-form .form-group label {
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .custom-form .form-group input,
+            .custom-form .form-group select {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            .custom-form button[type="submit"] {
+                background-color: #4CAF50;
+                color: white;
+                padding: 12px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            .custom-form button[type="submit"]:hover {
+                background-color: #45a049;
+            }
+
+            @media (max-width: 768px) {
+                .custom-form {
+                    margin: 20px;
+                    padding: 15px;
+                }
+            }
+        </style>
+
+        <form action="submit_url.php" method="post" class="custom-form">
+            <div class="form-group mb-3">
+                <label for="url" class="form-label">URL:</label>
+                <input type="url" class="form-control" id="url" name="url" placeholder="Enter URL" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="subject" class="form-label">Subject:</label>
+
+                <select class="form-select" id="subject" name="subject" required>
+                    <?php
+                    include_once "../inc/db_connect.php";
+
+                    if (isset($_GET['subject'])) {
+                        $subjectId = $_GET['subject'];
+                        $stmt = $conn->prepare("SELECT subject_name FROM subject WHERE subject_id = ?");
+                        $stmt->bind_param("i", $subjectId);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<option value="' . htmlspecialchars($subjectId) . '">' . htmlspecialchars($row['subject_name']) . '</option>';
+                            }
+                        } else {
+                            echo '<option value="">No subject found</option>';
+                        }
+                        $stmt->close();
+                    } else {
+                        echo '<option value="">No subject selected</option>';
+                    }
+
+                    $conn->close();
+                    ?>
+                </select>
+            </div>
+            <div class="subject-materials">
+
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
     <footer class="footer bg-light py-4"> <!-- Changed background color to light -->
         <div class="container d-flex justify-content-between align-items-start">
             <div class="logo">
-                <img src="../assets/LMS_logo re.jpg" alt="Logo" class="img-fluid" style="max-width: 150px;"> <!-- Replace with your logo path -->
+                <img src="../assets/LMS_logo re.jpg" alt="" class="img-fluid" style="max-width: 150px;"> <!-- Replace with your logo path -->
             </div>
             <div class="quick-links">
                 <h5>Quick Links</h5>
@@ -373,6 +433,7 @@ if (isset($_SESSION['lec_id'])) {
                     <li><a href="#faq" class="text-dark">FAQ</a></li>
                 </ul>
             </div>
+
             <div class="social-media text-center">
                 <h5>Follow Us</h5>
                 <ul class="list-inline">
