@@ -1,3 +1,9 @@
+<?php
+session_start();
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -377,7 +383,7 @@
             }
         </style>
 
-        <form action="submit_url.php" method="post" class="custom-form">
+        <form action="stu_dash_subject.php" method="post" class="custom-form">
             <div class="form-group mb-3">
                 <label for="url" class="form-label">URL:</label>
                 <input type="url" class="form-control" id="url" name="url" placeholder="Enter URL" required>
@@ -408,15 +414,26 @@
                         echo '<option value="">No subject selected</option>';
                     }
 
-                    $conn->close();
+
                     ?>
                 </select>
             </div>
-            <div class="subject-materials">
-
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" name="addSubject" class="btn btn-primary">Submit</button>
         </form>
+
+        <?php
+
+        if (isset($_GET['addSubject'])) {
+            $url = $_POST['url'];
+            $subject = $_POST['subject'];
+            $lecId = $_SESSION['lec_id'];
+
+            $stmt = $conn->prepare("INSERT INTO lecture_enroll (link, subject_id,user_id) VALUES (?, ?,?)");
+            $stmt->bind_param("sii", $url, $subject, $lecId);
+            $stmt->execute();
+            $stmt->close();
+        }
+        ?>
     </div>
 
     <footer class="footer bg-light py-4"> <!-- Changed background color to light -->
