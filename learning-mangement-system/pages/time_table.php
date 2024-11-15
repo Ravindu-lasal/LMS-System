@@ -1,16 +1,10 @@
-<?php
-include('../inc/db_connect.php');
-session_start();
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard</title>
+    <title>Time Table</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
@@ -24,10 +18,22 @@ session_start();
             font-family: Arial, sans-serif;
         }
 
+        .topic {
+            margin: 0 auto;
+            text-align: center;
+            margin-top: 30px;
+        }
 
-        body {
-            height: 100vh;
-            list-style-type: none;
+        .topic h1 {
+            color: #0077b5;
+            font-weight: 600;
+            font-size: 35px;
+        }
+
+        .topic h1 span {
+            color: #ff0080;
+            font-weight: 400;
+            font-size: 27px;
         }
 
         header {
@@ -41,22 +47,6 @@ session_start();
             align-items: center;
             padding: 0 20px;
         }
-
-        .logo {
-            display: flex;
-            text-align: center;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .logo p {
-            color: #eaeaea;
-            font-size: 18px;
-            font-weight: bold;
-            padding-top: 20px;
-        }
-
 
         .logo img {
             height: 50px;
@@ -113,19 +103,19 @@ session_start();
 
         .container {
             display: flex;
+            /* height: 100vh; */
         }
 
         .sidebar {
-            width: 10%;
+            width: 15%;
             background-color: #e0e0e0;
-            padding: 10px;
+            padding: 30px;
 
         }
 
         .sidebar ul {
             list-style-type: none;
-            margin-top: 100px;
-            margin-left: 30px;
+            margin-top: 150px;
 
         }
 
@@ -153,23 +143,17 @@ session_start();
             justify-content: space-between;
         }
 
-        .student-info h1 {
-            font-size: 27px;
+        .lec-info h1 {
+            font-size: 30px;
             margin-bottom: 40px;
         }
 
-        .student-info h1 span {
-            color: #3498db;
-            font-size: 40px;
-            margin-bottom: 40px;
-        }
-
-        .student-info h2 {
+        .lec-info h2 {
             font-size: 24px;
             margin-bottom: 40px;
         }
 
-        .student-info p {
+        .lec-info p {
             font-size: 16px;
             margin-bottom: 20px;
         }
@@ -178,18 +162,9 @@ session_start();
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-gap: 20px;
-            margin-top: 80px;
-            margin-right: -65px;
-            margin-left: 50px;
-            padding-bottom: 100px;
+            margin-top: 150px;
             align-self: flex-start;
-        }
-
-        .subject-buttons a {
-            text-decoration: none;
-            text-align: center;
-            text-shadow: #333333;
-
+            margin-left: auto;
         }
 
         .subject {
@@ -220,8 +195,50 @@ session_start();
             background-color: blue;
         }
 
-        /* Footer Styles (keep existing styles) */
+        .tablebg {
+            background-image: url('../assets/sliate.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 90vh;
+            padding-top: 50px;
 
+
+        }
+
+        /* .tablebg1{
+            background-color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            height: 90vh;
+            width: 65%;
+            margin-left: 260px;
+            margin-top: -625px;
+            
+            
+        } */
+
+        table {
+
+            /* margin: -570px 300px 50px ; */
+            width: 60%;
+            border-collapse: collapse;
+            background-color: rgba(255, 255, 255, 0.9);
+            margin: 0 auto;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .break,
+        .lunch {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Footer Styles (keep existing styles) */
 
         .footer {
             background-color: #1a2d41;
@@ -318,60 +335,98 @@ session_start();
 
 <body>
 
-    <?php
-    include('./student_inc/stu_nav.php');
-    ?>
+    <div class="topic">
+        <h1>Time Tabel - <span>IT Department</span></h1>
+    </div>
+    <div class="tablebg">
+        <div class="table">
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                </tr>
+                <tr>
+                    <td>8.30-9.30</td>
+                    <td>DSA</td>
+                    <td>WEB</td>
+                    <td>DBMS</td>
+                    <td>STATICS</td>
+                    <td>OS</td>
+                </tr>
+                <tr>
+                    <td>9.30-10.30</td>
+                    <td>DSA</td>
+                    <td>WEB</td>
+                    <td>DBMS</td>
+                    <td>STATICS</td>
+                    <td>OS</td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="break">Tea Break</td>
+                </tr>
+                <tr>
+                    <td>10.45-11.30</td>
+                    <td>DSA</td>
+                    <td>WEB</td>
+                    <td>DBMS</td>
+                    <td>STATICS</td>
+                    <td>OS</td>
+                </tr>
+                <tr>
+                    <td>11.30-12.30</td>
+                    <td>DSA</td>
+                    <td>OOP</td>
+                    <td>DBMS</td>
+                    <td>STATICS</td>
+                    <td>OS</td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="lunch">Lunch</td>
+                </tr>
+                <tr>
+                    <td>1.00-2.00</td>
+                    <td>WEB</td>
+                    <td>OOP</td>
+                    <td>CS</td>
+                    <td>OOP</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2.00-3.00</td>
+                    <td>WEB</td>
+                    <td>OOP</td>
+                    <td>CS</td>
+                    <td>OOP</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3.00-4.00</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
 
-
-    <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <ul>
-                <li><a href="./time_table.php">Time Table</a></li>
-                <li><a href="./lecturer_details.php">Lecturers</a></li>
-            </ul>
-        </div>
-
-        <!-- Main Content -->
-        <div class="container">
-            <div class="sidebar">
-                <!-- Sidebar content -->
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <div class="student-info">
-                    <?php
-
-                    // Display the student dashboard
-                    echo "<h1><span>Welcome..!</span> <br> " . $_SESSION['st_name']  . "</h1>";
-                    echo "<p>This is your student dashboard. Here you can access your subjects and other details.</p>";
-                    ?>
-
-                </div>
-
-                <!-- Subject Buttons -->
-                <div class="subject-buttons">
-                    <a href="stu_dash_subject.php" button class="subject red">WEB</button></a>
-                    <a href="stu_dash_subject.php" button class="subject black">OOP</button></a>
-                    <a href="stu_dash_subject.php" button class="subject red">DBMS</button></a>
-                    <a href="stu_dash_subject.php" button class="subject black">IS</button></a>
-                    <a href="stu_dash_subject.php" button class="subject red">DSA</button></a>
-                    <a href="stu_dash_subject.php" button class="subject black">OS</button></a>
-                    <a href="stu_dash_subject.php" button class="subject red">Statics</button></a>
-                </div>
-            </div>
         </div>
     </div>
+    <!-- <div class="tablebg1"> 
+            
+        </div> -->
 
-    <?php
-    include('./student_inc/stu_footer.php');
-    ?>
+
 
     <!-- Font Awesome for social media icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <script src="slider.js"></script> <!-- Link to your JavaScript -->
+
+
 
 </body>
 

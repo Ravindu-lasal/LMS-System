@@ -69,21 +69,18 @@ if (isset($_POST['login_submit'])) {
 
     if ($row['user_type'] == 'admin') {
 
-      $_SESSION['admin_name'] = $row['fullName'];
+      $_SESSION['admin_name'] = $row['fullname'];
       $_SESSION['admin_email'] = $row['email'];
       $_SESSION['admin_id'] = $row['id'];
       header('location:./pages/admin/index.php');
-
-
     } elseif ($row['user_type'] == 'lecture') {
-      $_SESSION['lec_name'] = $row['fullName'];
+      $_SESSION['lec_name'] = $row['fullname'];
       $_SESSION['lec_email'] = $row['email'];
       $_SESSION['lec_id'] = $row['id'];
       header('location:./lec_dashboard.php');
-
-
     } elseif ($row['user_type'] == 'student') {
-      $_SESSION['st_name'] = $row['fullName'];
+
+      $_SESSION['st_name'] = $row['fullname'];
       $_SESSION['st_email'] = $row['email'];
       $_SESSION['st_id'] = $row['id'];
       header('location:./stu_dashboard.php');

@@ -1,16 +1,17 @@
 <?php
-// If you need any server-side PHP logic, add it here.
-// For example, fetching data from a database or handling form submissions.
-?>
+session_start();
 
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Higher National Diploma in Quantity Surveying - (HNDQS)</title>
-    <link rel="stylesheet" href="../../assets/css/details.css">
+    <link rel="stylesheet" href="../../../assets/css/details.css">
 </head>
+
 <body>
     <header>
         <h1>Higher National Diploma in Quantity Surveying (HNDQS)</h1>
@@ -76,4 +77,5 @@
         <p>&copy; 2024 HND Program - All Rights Reserved.</p>
     </footer>
 </body>
+
 </html>

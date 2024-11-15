@@ -1,16 +1,18 @@
 <?php
-// If you need any server-side PHP logic, add it here.
-// For example, fetching data from a database or handling form submissions.
+session_start();
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Higher National Diploma in Accountancy - (HNDA)</title>
-    <link rel="stylesheet" href="../../assets/css/details.css">
+    <link rel="stylesheet" href="../../../assets/css/details.css">
 </head>
+
 <body>
     <header>
         <h1>Higher National Diploma in Accountancy (HNDA)</h1>
@@ -115,54 +117,54 @@
                         'phone' => '0372229583, 0372224911 ,0714882528'
                     ],
                     [
-                       'no' =>'10',
-                       'name'=>'Advanced Technological Institute , Galle.',
-                       'address'=>'Siridamma Mw , Labuduwa , Akmeemana.',
-                       'type'=>'Full Time / Part Time',
-                       'phone'=>'0912246179'
-                   ],
-                   [
-                       'no'=>'11',
-                       'name'=>'Advanced Technological Institute , Gampaha.',
-                       'address'=>'Naiwala , Essalla , Veyangoda',
-                       'type'=>'Full Time / Part Time',
-                       'phone'=>'0332287519 ,0332292544 ,0715511205 ,0772917792'
-                   ],
-                   [
-                       'no'=>'12',
-                       'name'=>'Advanced Technological Section Rathnapura.',
-                       'address'=>'New Town , Rathnapura',
-                       'type'=>'Full Time / Part Time',
-                       'phone'=>'0452231492 ,0452231493 ,0718147124 ,0713930219'
-                   ],
-                   [
-                       'no'=>'13',
-                       'name'=>'Advanced Technological Section Samanthurai.',
-                       'address'=>'Main Street , Samanthurai',
-                       'type'=>'Full Time / Part Time',
-                       'phone'=>'0672261304 ,0775153500'
-                   ],
-                   [
-                       'no'=>'14',
-                       'name'=>'Advanced Technological Section Tangalle.',
-                       'address'=>'Yayawatta , Netolpitiya , Tangalle',
-                       'type'=>'Full Time / Part Time',
-                       'phone'=>'0472241845 ,0472241846 ,0714491932'
-                   ],
-                   [
-                       'no'=>'15',
-                       'name'=>'Advanced Technological Section Trincomalee.',
-                       'address'=>'Inner Harbour Rd , Trincomalle',
-                       'type'=>'Full Time / Part Time',
-                       'phone'=>'0262223232 ,0262050617 ,0773659589'
-                   ],
-                   [
-                      'no'=>'16',
-                      'name'=>'Advanced Technological Section Vavuniya.',
-                      'address'=>'Off A 9 Road , Veppankulam,Omanthai , Vavuniya.',
-                      'type'=> 'Full Time / Part-Time',
-                      $phone='0242052733 ,0776162010'
-                  ]
+                        'no' => '10',
+                        'name' => 'Advanced Technological Institute , Galle.',
+                        'address' => 'Siridamma Mw , Labuduwa , Akmeemana.',
+                        'type' => 'Full Time / Part Time',
+                        'phone' => '0912246179'
+                    ],
+                    [
+                        'no' => '11',
+                        'name' => 'Advanced Technological Institute , Gampaha.',
+                        'address' => 'Naiwala , Essalla , Veyangoda',
+                        'type' => 'Full Time / Part Time',
+                        'phone' => '0332287519 ,0332292544 ,0715511205 ,0772917792'
+                    ],
+                    [
+                        'no' => '12',
+                        'name' => 'Advanced Technological Section Rathnapura.',
+                        'address' => 'New Town , Rathnapura',
+                        'type' => 'Full Time / Part Time',
+                        'phone' => '0452231492 ,0452231493 ,0718147124 ,0713930219'
+                    ],
+                    [
+                        'no' => '13',
+                        'name' => 'Advanced Technological Section Samanthurai.',
+                        'address' => 'Main Street , Samanthurai',
+                        'type' => 'Full Time / Part Time',
+                        'phone' => '0672261304 ,0775153500'
+                    ],
+                    [
+                        'no' => '14',
+                        'name' => 'Advanced Technological Section Tangalle.',
+                        'address' => 'Yayawatta , Netolpitiya , Tangalle',
+                        'type' => 'Full Time / Part Time',
+                        'phone' => '0472241845 ,0472241846 ,0714491932'
+                    ],
+                    [
+                        'no' => '15',
+                        'name' => 'Advanced Technological Section Trincomalee.',
+                        'address' => 'Inner Harbour Rd , Trincomalle',
+                        'type' => 'Full Time / Part Time',
+                        'phone' => '0262223232 ,0262050617 ,0773659589'
+                    ],
+                    [
+                        'no' => '16',
+                        'name' => 'Advanced Technological Section Vavuniya.',
+                        'address' => 'Off A 9 Road , Veppankulam,Omanthai , Vavuniya.',
+                        'type' => 'Full Time / Part-Time',
+                        'phone' => '0242052733 ,0776162010'
+                    ]
                 ];
 
                 // Loop through the institutes array and output rows dynamically
@@ -183,4 +185,5 @@
         <p>&copy; 2024 HND Program - All Rights Reserved.</p>
     </footer>
 </body>
+
 </html>
