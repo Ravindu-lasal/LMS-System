@@ -423,7 +423,7 @@ session_start();
 
         <?php
 
-        if (isset($_GET['addSubject'])) {
+        if (isset($_POST['addSubject'])) {
             $url = $_POST['url'];
             $subject = $_POST['subject'];
             $lecId = $_SESSION['lec_id'];
@@ -434,6 +434,55 @@ session_start();
             $stmt->close();
         }
         ?>
+
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th,
+            td {
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            th {
+                background-color: #4CAF50;
+                color: white;
+            }
+        </style>
+        <h2 class="mt-3">Recently Added Resources</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>URL</th>
+                    <th>Subject</th>
+                    <th>Lecturer ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $stmt = $conn->prepare("SELECT link, subject_id FROM lecture_enroll WHERE user_id = ?");
+                $stmt->bind_param("i", $lecId);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr><td>" . htmlspecialchars($row['link']) . "</td><td>" . htmlspecialchars($row['subject_id']) . "</td></tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan=\"3\">No data available</td></tr>";
+                }
+                $stmt->close();
+                ?>
+            </tbody>
+        </table>
     </div>
 
     <footer class="footer bg-light py-4"> <!-- Changed background color to light -->
