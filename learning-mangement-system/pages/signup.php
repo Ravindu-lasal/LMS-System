@@ -1,3 +1,102 @@
+<?php
+include '../inc/db_connect.php';
+?>
+<!-- Register Function  -->
+
+<!-- registraion function  -->
+
+<?php
+
+if (isset($_POST['signUp_submit'])) {
+
+  $filter_name = filter_var($_POST['fName'], FILTER_SANITIZE_SPECIAL_CHARS);
+  $name = mysqli_real_escape_string($conn, $filter_name);
+
+  $filter_address = filter_var($_POST['address'], FILTER_SANITIZE_SPECIAL_CHARS);
+  $address = mysqli_real_escape_string($conn, $filter_address);
+
+  $filter_contact = filter_var($_POST['contact'], FILTER_SANITIZE_SPECIAL_CHARS);
+  $contact = mysqli_real_escape_string($conn, $filter_contact);
+
+  $filter_email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+  $email = mysqli_real_escape_string($conn, $filter_email);
+
+  $filter_pass = filter_var($_POST['pass'], FILTER_SANITIZE_SPECIAL_CHARS);
+  $pass = mysqli_real_escape_string($conn, md5($filter_pass));
+
+  $filter_cpass = filter_var($_POST['cpass'], FILTER_SANITIZE_SPECIAL_CHARS);
+  $cpass = mysqli_real_escape_string($conn, md5($filter_cpass));
+
+
+  $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed');
+
+  if (mysqli_num_rows($select_users) > 0) {
+    $message[] = 'user already exist!';
+  } else {
+    if ($pass != $cpass) {
+      $message[] = 'confirm password not matched!';
+    } else {
+      mysqli_query($conn, "INSERT INTO `users` (fullName, address, contact, email, password) VALUES ('$name', '$address', '$contact', '$email', '$pass')") or die('query failed');
+      $message[] = 'registered successfully!';
+    }
+  }
+}
+
+?>
+
+<!-- Login Fun -->
+
+<!-- login fun  -->
+
+<?php
+
+
+session_start();
+
+if (isset($_POST['login_submit'])) {
+
+  $filter_email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+  $email = mysqli_real_escape_string($conn, $filter_email);
+  $filter_pass = filter_var($_POST['pass'], FILTER_SANITIZE_SPECIAL_CHARS);
+  $pass = mysqli_real_escape_string($conn, md5($filter_pass));
+
+  $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email' AND password = '$pass'") or die('query failed');
+
+
+  if (mysqli_num_rows($select_users) > 0) {
+
+    $row = mysqli_fetch_assoc($select_users);
+
+    if ($row['user_type'] == 'admin') {
+
+      $_SESSION['admin_name'] = $row['fullName'];
+      $_SESSION['admin_email'] = $row['email'];
+      $_SESSION['admin_id'] = $row['id'];
+      header('location:./pages/admin/index.php');
+    } elseif ($row['user_type'] == 'lecture') {
+
+      $_SESSION['user_name'] = $row['fullName'];
+      $_SESSION['user_email'] = $row['email'];
+      $_SESSION['user_id'] = $row['id'];
+      header('location:../index.php');
+    } elseif ($row['user_type'] == 'student') {
+
+      $_SESSION['user_name'] = $row['fullName'];
+      $_SESSION['user_email'] = $row['email'];
+      $_SESSION['user_id'] = $row['id'];
+      header('location:../index.php');
+    } else {
+      $message[] = 'no user found!';
+    }
+  } else {
+    $message[] = 'incorrect email or password!';
+  }
+}
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,19 +109,28 @@
 </head>
 
 <body>
+
+  <?php
+  if (isset($message)) {
+    foreach ($message as $message) {
+      echo '
+      <div class="msg_box container text-center text-danger fs-4 p-1 mt-2 mb-3">
+         <span>' . $message . '</span>
+        <a class = "b_register" href = "#register" onclick="this.parentElement.remove();"><i class="fas fa-times text-danger fs-3"></i> </a>
+      </div>
+      ';
+    }
+  }
+  ?>
+
   <div class="form-wrapper">
     <div class="form-image">
       <img src="../assets/Images/login.png" alt="Form Image">
     </div>
 
     <div class="container" id="signup" style="display:none;">
-      <h1 class="form-title">Register as a Lecturer</h1>
-      <form method="post" action="../Login/register.php">
-        <div class="input-group">
-          <i class="fas fa-user"></i>
-          <input type="text" name="lId" id="lId" placeholder="Lecturer ID" required>
-          <label for="lId">Lecturer ID</label>
-        </div>
+      <h1 class="form-title">Register Here</h1>
+      <form method="post">
         <div class="input-group">
           <i class="fas fa-user"></i>
           <input type="text" name="fName" id="fName" placeholder="Full Name" required>
@@ -38,22 +146,6 @@
           <input type="text" name="contact" id="contact" placeholder="Contact" required>
           <label for="contact">Contact</label>
         </div>
-        <br>
-
-        <div class="input-group">
-          <label for="subject1">Subjects</label>
-          <select name="subject1" id="subject1" required>
-            <option value="" disabled selected>Select Subject </option>
-            <option value="WEB">WEB</option>
-            <option value="OOP">OOP</option>
-            <option value="DBMS">DBMS</option>
-            <option value="STATISTIC">STATISTIC</option>
-            <option value="OS">OS</option>
-            <option value="DSA">DSA</option>
-            <option value="IS">IS</option>
-          </select>
-        </div>
-        <br>
         <!-- Email Input -->
         <div class="input-group">
           <i class="fas fa-envelope"></i>
@@ -64,12 +156,18 @@
         <!-- Password Input -->
         <div class="input-group">
           <i class="fas fa-lock"></i>
-          <input type="password" name="password" id="password" placeholder="Password" required>
-          <label for "password">Password</label>
+          <input type="password" name="pass" id="pass" placeholder="Password" required>
+          <label for="password">Password</label>
+        </div>
+
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" name="cpass" id="cpass" placeholder="Confirm Password" required>
+          <label for="password">Confirm Password</label>
         </div>
 
         <!-- Submit Button -->
-        <input type="submit" class="btn" value="Sign Up" name "signUp">
+        <input type="submit" class="btn" value="Sign Up" name="signUp_submit">
       </form>
 
 
@@ -81,7 +179,7 @@
 
     <div class="container" id="signIn">
       <h1 class="form-title">Sign In as a Lecture</h1>
-      <form method="post" action="Login/register.php">
+      <form method="post">
         <div class="input-group">
           <i class="fas fa-envelope"></i>
           <input type="email" name="email" id="email" placeholder="Email" required>
@@ -89,13 +187,13 @@
         </div>
         <div class="input-group">
           <i class="fas fa-lock"></i>
-          <input type="password" name="password" id="password" placeholder="Password" required>
+          <input type="password" name="pass" id="pass" placeholder="Password" required>
           <label for="password">Password</label>
         </div>
         <p class="recover">
           <a href="#">Recover Password</a>
         </p>
-        <input type="submit" class="btn" value="Sign In" name="signIn">
+        <input type="submit" class="btn" value="Sign In" name="login_submit">
       </form>
 
       <div class="links">
