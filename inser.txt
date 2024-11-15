@@ -1,0 +1,32 @@
+-- Insert sample data into users table
+INSERT INTO users (fullname, email, password, contact, role)
+VALUES 
+    ('John Doe', 'john.doe@example.com', 'password123', '1234567890', 'student'),
+    ('Jane Smith', 'jane.smith@example.com', 'password123', '1234567891', 'student'),
+    ('Dr. Alan Grant', 'alan.grant@example.com', 'password123', '1234567892', 'lecturer'),
+    ('Admin User', 'admin.user@example.com', 'adminpassword', '1234567893', 'admin');
+
+-- Insert sample data into subject table
+INSERT INTO subject (subject_code, subject_name)
+VALUES
+    ('CS101', 'Introduction to Computer Science'),
+    ('MATH201', 'Advanced Mathematics'),
+    ('PHY301', 'Physics of Motion');
+
+-- Insert sample data into lecture_enroll table
+INSERT INTO lecture_enroll (subject_id, user_id)
+VALUES
+    (1, 1), -- John Doe enrolled in CS101
+    (1, 2), -- Jane Smith enrolled in CS101
+    (2, 1), -- John Doe enrolled in MATH201
+    (2, 2), -- Jane Smith enrolled in MATH201
+    (3, 1); -- John Doe enrolled in PHY301
+
+-- Insert sample data into marks table
+INSERT INTO marks (subject_id, user_id, credits)
+VALUES
+    (1, 1, 90), -- John Doe scored 90 in CS101
+    (1, 2, 85), -- Jane Smith scored 85 in CS101
+    (2, 1, 88), -- John Doe scored 88 in MATH201
+    (2, 2, 92), -- Jane Smith scored 92 in MATH201
+    (3, 1, 75); -- John Doe scored 75 in PHY301
