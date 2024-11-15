@@ -1,16 +1,18 @@
 <?php
-// If you need any server-side PHP logic, add it here.
-// For example, fetching data from a database or handling form submissions.
+session_start();
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Higher National Diploma in Tourism and Hospitality Management - (HNDTHM)</title>
-    <link rel="stylesheet" href="../../assets/css/details.css">
+    <link rel="stylesheet" href="../../../assets/css/details.css">
 </head>
+
 <body>
     <header>
         <h1>Higher National Diploma in Tourism and Hospitality Management (HNDTHM)</h1>
@@ -78,26 +80,26 @@
                         'phone' => '0812226644'
                     ],
                     [
-                       'no' => '06',
-                       'name' => 'Advanced Technological Institute, Galle.',
-                       'address' => 'Siridamma Mw, Labuduwa, Akmeemana.',
-                       'type' => 'Full Time',
-                       'phone' => '091-246179'
-                   ],
-                   [
-                       'no' => '07',
-                       'name' => 'Advanced Technological Institute Section, Nawalapitiya.',
-                       'address' => 'Old Urban Council Building, Nawalapitiya',
-                       'type' => 'Full Time',
-                       'phone' => '0542050634'
-                   ],
-                   [
-                       'no' => '08',
-                       'name' => 'Advanced Technological Institute Section, Mannar.',
-                       'address' => '',
-                       'type' => 'Full Time',
-                       'phone' => ''
-                   ]
+                        'no' => '06',
+                        'name' => 'Advanced Technological Institute, Galle.',
+                        'address' => 'Siridamma Mw, Labuduwa, Akmeemana.',
+                        'type' => 'Full Time',
+                        'phone' => '091-246179'
+                    ],
+                    [
+                        'no' => '07',
+                        'name' => 'Advanced Technological Institute Section, Nawalapitiya.',
+                        'address' => 'Old Urban Council Building, Nawalapitiya',
+                        'type' => 'Full Time',
+                        'phone' => '0542050634'
+                    ],
+                    [
+                        'no' => '08',
+                        'name' => 'Advanced Technological Institute Section, Mannar.',
+                        'address' => '',
+                        'type' => 'Full Time',
+                        'phone' => ''
+                    ]
                 ];
 
                 // Loop through the institutes array and output rows dynamically
@@ -118,4 +120,5 @@
         <p>&copy; 2024 HND Program - All Rights Reserved.</p>
     </footer>
 </body>
+
 </html>

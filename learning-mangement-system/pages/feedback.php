@@ -7,6 +7,25 @@ include('../inc/db_connect.php');
 session_start();
 ?>
 
+<?php
+
+$user_id = $_SESSION['st_id'];
+
+if (!isset($user_id)) {
+    header('location:../index.php');
+};
+
+if (isset($_POST['send'])) {
+
+    $name = mysqli_real_escape_string($conn, $_POST['studentName']);
+    $email = mysqli_real_escape_string($conn, $_POST['studentEmail']);
+    $msg = mysqli_real_escape_string($conn, $_POST['message']);
+
+    mysqli_query($conn, "INSERT INTO `feedback`(f_name, f_email, comment) VALUES('$name', '$email', '$msg')") or die('query failed');
+}
+
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,17 +76,12 @@ session_start();
             <form class="student-form" method="POST">
                 <div class="mb-3">
                     <label for="studentName" class="form-label">Name:</label>
-                    <input type="text" id="studentName" name="studentName" class="form-control" required>
+                    <input type="text" id="studentName" name="studentName" class="form-control" value="<?php echo isset($_SESSION['st_name']) ? $_SESSION['st_name'] : ''; ?>" required readonly>
                 </div>
 
-                <div class="mb-3">
+                <div class=" mb-3">
                     <label for="studentEmail" class="form-label">Email:</label>
-                    <input type="email" id="studentEmail" name="studentEmail" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="studentID" class="form-label">Student ID:</label>
-                    <input type="text" id="studentID" name="studentID" class="form-control" required>
+                    <input type="email" id="studentEmail" name="studentEmail" class="form-control" value="<?php echo isset($_SESSION['st_email']) ? $_SESSION['st_email'] : ''; ?>" required readonly>
                 </div>
 
                 <div class="mb-3">
@@ -75,7 +89,7 @@ session_start();
                     <textarea id="message" name="message" rows="4" class="form-control" required></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Send Message</button> <!-- Submit button -->
+                <button type="submit" name="send" class="btn btn-primary">Send Message</button> <!-- Submit button -->
             </form>
 
         </div>
