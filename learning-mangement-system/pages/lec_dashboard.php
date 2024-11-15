@@ -342,13 +342,20 @@ if (isset($_SESSION['lec_id'])) {
 
             <!-- Subject Buttons -->
             <div class="subject-buttons">
-                <a href="stu_dash_subject.php" button class="subject red">WEB</button></a>
-                <a href="stu_dash_subject.php" button class="subject black">OOP</button></a>
-                <a href="stu_dash_subject.php" button class="subject red">DBMS</button></a>
-                <a href="stu_dash_subject.php" button class="subject black">IS</button></a>
-                <a href="stu_dash_subject.php" button class="subject red">DSA</button></a>
-                <a href="stu_dash_subject.php" button class="subject black">OS</button></a>
-                <a href="stu_dash_subject.php" button class="subject red">Statics</button></a>
+                <?php
+                include_once "../inc/db_connect.php";
+                $sql = "SELECT * FROM subject";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<a href="stu_dash_subject.php?subject=' . $row['subject_id'] . '"><button type="button" button class="subject red">' . $row['subject_name'] . '</button></a>';
+                    }
+                } else {
+                    echo "No subjects available";
+                }
+                $conn->close();
+                ?>
             </div>
         </div>
     </div>
