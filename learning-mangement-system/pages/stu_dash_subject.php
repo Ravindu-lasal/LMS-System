@@ -2,6 +2,13 @@
 include('../inc/db_connect.php');
 session_start();
 $lecId = isset($_SESSION['lec_id']) ? $_SESSION['lec_id'] : null;
+
+
+
+
+
+
+
 ?>
 
 <?php
@@ -392,7 +399,7 @@ if (isset($_GET['delete'])) {
         <form action="" method="post" class="custom-form">
             <div class="form-group mb-3">
                 <label for="url" class="form-label">URL:</label>
-                <input type="url" class="form-control" id="url" name="url" placeholder="Enter URL" required>
+                <input type="text" class="form-control" id="url" name="url" placeholder="Enter URL" required>
             </div>
             <div class="form-group mb-3">
                 <label for="subject" class="form-label">Subject:</label>
@@ -482,14 +489,92 @@ if (isset($_GET['delete'])) {
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . htmlspecialchars($row['link']) . "</td><td>" . htmlspecialchars($row['subject_id']) . "</td><td><a href=\"?delete=" . $row['enroll_id'] . "\" onclick=\"return confirm('Are you sure you want to delete this resource?')\"><i class=\"fas fa-trash-alt\"></i></a></td></tr>";
+                        $enrollId = $row['enroll_id'];
+                        $link = htmlspecialchars($row['link']);
+                        $subjectId = htmlspecialchars($row['subject_id']);
+
+                        echo "
+            <tr>
+                <form method=\"post\">
+                    <td>
+                        <input 
+                            type=\"text\" 
+                            class=\"form-control\" 
+                            value=\"$link\" 
+                            name=\"link_$enrollId\" 
+                        />
+                    </td>
+                    <td>$subjectId</td>
+                    <td>
+                        <button 
+                            class=\"btn btn-success\" 
+                            type=\"submit\" 
+                            name=\"update\" 
+                            value=\"$enrollId\"
+                        >
+                            Update
+                        </button>
+                        <button 
+                            class=\"btn btn-danger\" 
+                            type=\"submit\" 
+                            name=\"delete\" 
+                            value=\"$enrollId\" 
+                            onclick=\"return confirm('Are you sure you want to delete this resource?')\"
+                        >
+                            Delete
+                        </button>
+                    </td>
+                </form>
+            </tr>";
                     }
                 } else {
                     echo "<tr><td colspan=\"3\">No data available</td></tr>";
                 }
                 $stmt->close();
                 ?>
+
+                <?php
+                // Handle the update request
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    if (isset($_POST['update'])) {
+                        $enrollId = $_POST['update'];
+                        $newLink = $_POST['link_' . $enrollId] ?? '';
+
+                        // Check if the link value is empty
+                        if (empty($newLink)) {
+                            echo "<script>alert('Link cannot be empty.');</script>";
+                        } else {
+                            // Update the link in the database
+                            $stmt = $conn->prepare("UPDATE lecture_enroll SET link = ? WHERE enroll_id = ?");
+                            $stmt->bind_param("si", $newLink, $enrollId);
+                            $stmt->execute();
+
+                            if ($stmt->affected_rows > 0) {
+                                echo "<script>alert('Link updated successfully!'); window.location.reload();</script>";
+                            }
+                            $stmt->close();
+                        }
+                    }
+
+                    // Handle the delete request
+                    if (isset($_POST['delete'])) {
+                        $enrollId = $_POST['delete'];
+
+                        // Delete the record from the database
+                        $stmt = $conn->prepare("DELETE FROM lecture_enroll WHERE enroll_id = ?");
+                        $stmt->bind_param("i", $enrollId);
+                        $stmt->execute();
+
+                        if ($stmt->affected_rows > 0) {
+                            echo "<script>alert('Record deleted successfully!'); window.location.reload();</script>";
+                        }
+                        $stmt->close();
+                    }
+                }
+                ?>
             </tbody>
+
+
         </table>
     </div>
 
