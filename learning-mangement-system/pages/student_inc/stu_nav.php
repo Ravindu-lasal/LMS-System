@@ -8,7 +8,7 @@
             <li><a href="./stu_dashboard.php">Home</a></li>
             <li><a href="./courses_without_login.php">Courses</a></li>
             <li><a href="./stu_about.php">About</a></li>
-            <li><a href="..\pages\contact.php">Contact</a></li>
+            <li><a href="./feedback.php">Contact</a></li>
         </ul>
         <div class="auth-buttons">
             <a href="../inc/logout.php" class="btn logout">Sign Out</a>

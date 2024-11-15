@@ -1,4 +1,6 @@
 <?php
+include('../inc/db_connect.php');
+
 session_start();
 ?>
 
