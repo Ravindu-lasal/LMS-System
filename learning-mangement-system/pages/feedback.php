@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <?php
 include('../inc/db_connect.php');
 
@@ -15,16 +12,33 @@ if (!isset($user_id)) {
     header('location:../index.php');
 };
 
+
 if (isset($_POST['send'])) {
 
+    // Assuming a valid connection to the database ($conn) is established
+
+    // Secure the input to prevent SQL injection
     $name = mysqli_real_escape_string($conn, $_POST['studentName']);
     $email = mysqli_real_escape_string($conn, $_POST['studentEmail']);
     $msg = mysqli_real_escape_string($conn, $_POST['message']);
 
-    mysqli_query($conn, "INSERT INTO `feedback`(f_name, f_email, comment) VALUES('$name', '$email', '$msg')") or die('query failed');
-}
+    // Insert feedback into the feedback table
+    $insertQuery = "INSERT INTO `feedback` (f_name, f_email, comment) VALUES ('$name', '$email', '$msg')";
 
+    // Execute the query and check for errors
+    if (mysqli_query($conn, $insertQuery)) {
+        echo "Feedback submitted successfully!";
+        header("Location: " . $_SERVER['PHP_SELF']);
+    } else {
+        // echo "Error: " . mysqli_error($conn);
+    }
+}
 ?>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">

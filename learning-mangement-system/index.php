@@ -1,3 +1,10 @@
+<?php
+
+include('./inc/db_connect.php');
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en" style="scroll-behavior: smooth;">
 
@@ -11,7 +18,88 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300,400);
+        @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css);
+
+        .feedback {
+            margin: 0 auto;
+            text-align: center;
+            margin: 10px;
+        }
+
+        .snip1533 {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+            color: #9e9e9e;
+            display: inline-block;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-size: 16px;
+            margin: 35px 10px 10px;
+            max-width: 310px;
+            min-width: 250px;
+            position: relative;
+            text-align: center;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 5px;
+            border-top: 5px solid #393939;
+        }
+
+        .snip1533 *,
+        .snip1533 *:before {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition: all 0.1s ease-out;
+            transition: all 0.1s ease-out;
+        }
+
+        .snip1533 figcaption {
+            padding: 13% 10% 12%;
+        }
+
+        .snip1533 figcaption:before {
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+            color: #393939;
+            content: "\f10e";
+            font-family: 'FontAwesome';
+            font-size: 32px;
+            font-style: normal;
+            left: 50%;
+            line-height: 60px;
+            position: absolute;
+            top: -30px;
+            width: 60px;
+        }
+
+        .snip1533 h3 {
+            color: #3c3c3c;
+            font-size: 20px;
+            font-weight: 300;
+            line-height: 24px;
+            margin: 10px 0 5px;
+        }
+
+        .snip1533 h4 {
+            font-weight: 400;
+            margin: 0;
+            opacity: 0.5;
+        }
+
+        .snip1533 blockquote {
+            font-style: italic;
+            font-weight: 300;
+            margin: 0 0 20px;
+        }
+    </style>
+
+
 </head>
+
 
 <body>
 
@@ -146,6 +234,34 @@
             </div>
         </div>
     </div>
+
+    <div class="feedback">
+        <?php
+        // Query to fetch feedback details where status = 1
+        $query = "SELECT f_name, f_email, comment FROM feedback WHERE status = 1";
+        $result = $conn->query($query);
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+        ?>
+                <figure class="snip1533">
+                    <figcaption>
+                        <blockquote>
+                            <p><?php echo htmlspecialchars($row['comment']); ?></p>
+                        </blockquote>
+                        <h3><?php echo htmlspecialchars($row['f_name']); ?></h3>
+                        <h4><?php echo htmlspecialchars($row['f_email']); ?></h4>
+                    </figcaption>
+                </figure>
+        <?php
+            }
+        } else {
+            echo "<p class='text-center'>No feedback available at the moment.</p>";
+        }
+        ?>
+    </div>
+
+
     <!--footer-->
     <?php
     include('./partials/footer.php');
