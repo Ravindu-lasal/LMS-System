@@ -7,10 +7,16 @@ $users = mysqli_query($conn, $sql);
 if (isset($_POST["id"])) {
     $id = $_POST["id"];
 
-    $sql = "DELETE FROM users WHERE id=$id";
-    $conn->query($sql);
-}
+    if (isset($_POST["userType"])) {
+        $userType = $_POST["userType"];
+        $sql = "UPDATE users SET user_type = '$userType' WHERE id=$id";
+    } else {
+        $sql = "DELETE FROM users WHERE id=$id";
+    }
 
+    $conn->query($sql);
+    exit();
+}
 
 
 ?>
@@ -171,12 +177,16 @@ if (isset($_POST["id"])) {
                                         <p class="text-muted mb-0">IT department</p>
                                     </td>
                                     <td>
-                                        <span class="badge rounded-pill bg-danger"><?php echo $user['user_type'] ?></span>
+                                        <select class="form-select" aria-label="Default select example" onchange="updateUserType(<?php echo $user['id'] ?>,this.value)">
+                                            <option selected><?php echo $user['user_type'] ?></option>
+                                            <option value="admin">Admin</option>
+                                            <option value="lecture">Lecture</option>
+                                        </select>
                                     </td>
                                     <td>Senior</td>
                                     <td>
                                         <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                            <i class="fas fa-edit"></i>
+                                            <span class="badge rounded-pill bg-danger" onclick="deleteUser(<?php echo $user['id'] ?>,event)">Delete</span>
                                         </button>
                                         <button type="button" class="btn btn-link btn-sm btn-rounded">
                                             <i class="fas fa-trash-alt" onclick="deleteUser(<?php echo $user['id'] ?>,event)"></i>
@@ -220,6 +230,18 @@ if (isset($_POST["id"])) {
             xhr.send(`id=${userId}`);
 
 
+        }
+
+        function updateUserType(userId, userType) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'users.php');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    // window.location.reload();
+                }
+            }
+            xhr.send(`id=${userId}&userType=${userType}`);
         }
     </script>
 </body>
