@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: smooth;">
 
 <head>
     <meta charset="UTF-8">
@@ -7,6 +7,7 @@
     <title>SLIATE LMS</title>
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/css/stu_nav_footer.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
@@ -14,21 +15,9 @@
 
 <body>
 
-    <header>
-        <div class="navbar">
-            <div class="logo"><img src="logo.png" alt="Logo"></div>
-            <ul class="nav-links">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="../learning-mangement-system/pages/courses_without_login.php">Courses</a></li>
-                <li><a href="../learning-mangement-system/pages/stu_dashboard.php ">About</a></li>
-                <li><a href="pages/contact.php">Contact</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <a href="../learning-mangement-system/pages/signup.php" class="btn signin">Login</a>
-
-            </div>
-        </div>
-    </header>
+    <?php
+    include('./partials/nav.php');
+    ?>
 
     <div class="slider-container">
         <div class="slider">
@@ -43,7 +32,7 @@
         </div>
     </div>
 
-    <div class="content">
+    <div class="content" id="courses">
         <h2>Courses</h2>
         <div class="course-cards">
             <div class="course-card">
@@ -67,6 +56,31 @@
                     <p>Improve your English language skills for personal and professional growth.</p>
                 </div>
             </div>
+
+            <div class="course-card">
+
+                <div class="card-content">
+                    <h3>English</h3>
+                    <p>Improve your English language skills for personal and professional growth.</p>
+                </div>
+            </div>
+
+            <div class="course-card">
+
+                <div class="card-content">
+                    <h3>English</h3>
+                    <p>Improve your English language skills for personal and professional growth.</p>
+                </div>
+            </div>
+
+            <div class="course-card">
+
+                <div class="card-content">
+                    <h3>English</h3>
+                    <p>Improve your English language skills for personal and professional growth.</p>
+                </div>
+            </div>
+
             <!-- Add more course cards as needed -->
         </div>
         <!-- Vertical Line -->
@@ -106,7 +120,7 @@
         </div>
     </div>
 
-    <div class="crew-section">
+    <div class="crew-section" id="about">
 
         <h2>Our Crew</h2>
         <div class="crew-container">
@@ -133,39 +147,9 @@
         </div>
     </div>
     <!--footer-->
-    <footer class="footer bg-light py-4"> <!-- Changed background color to light -->
-        <div class="container d-flex justify-content-between align-items-start">
-            <div class="logo">
-                <img src="logo.png" alt="Logo" class="img-fluid" style="max-width: 150px;"> <!-- Replace with your logo path -->
-            </div>
-            <div class="quick-links">
-                <h5>Quick Links</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#contact" class="text-dark">Contact Us</a></li>
-                    <li><a href="#about" class="text-dark">About</a></li>
-                    <li><a href="#services" class="text-dark">Services</a></li>
-                    <li><a href="#faq" class="text-dark">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="social-media text-center">
-                <h5>Follow Us</h5>
-                <ul class="list-inline">
-                    <li class="list-inline-item"><a href="#" class="text-dark"><i class="fab fa-facebook-f"></i></a></li>
-                    <li class="list-inline-item"><a href="#" class="text-dark"><i class="fab fa-x"></i></a></li>
-                    <li class="list-inline-item"><a href="#" class="text-dark"><i class="fab fa-instagram"></i></a></li>
-                    <li class="list-inline-item"><a href="#" class="text-dark"><i class="fab fa-linkedin-in"></i></a></li>
-                    <li class="list-inline-item"><a href="#" class="text-dark"><i class="fab fa-github"></i></a></li>
-                </ul>
-            </div>
-            <div class="contact-info">
-                <h5>Contact Us</h5>
-                <p>Advanced Technological Institute<br>Bandaranayake Mawatha, Kegalle, 71000<br>SriLanka<br>Email: info@sliatekegalle.com<br>Phone: 0354856556</p>
-            </div>
-        </div>
-        <hr class="my-4">
-        <p class="text-center text-dark">&copy; 2024 Advanced Technological Institute-Kegalle. All rights reserved.</p>
-    </footer>
-
+    <?php
+    include('./partials/footer.php');
+    ?>
     <!-- Font Awesome for social media icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 

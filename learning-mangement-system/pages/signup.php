@@ -78,13 +78,13 @@ if (isset($_POST['login_submit'])) {
       $_SESSION['user_name'] = $row['fullName'];
       $_SESSION['user_email'] = $row['email'];
       $_SESSION['user_id'] = $row['id'];
-      header('location:../index.php');
+      header('location:./lec_dashboard.php');
     } elseif ($row['user_type'] == 'student') {
 
       $_SESSION['user_name'] = $row['fullName'];
       $_SESSION['user_email'] = $row['email'];
       $_SESSION['user_id'] = $row['id'];
-      header('location:../index.php');
+      header('location:./stu_dashboard.php');
     } else {
       $message[] = 'no user found!';
     }
