@@ -143,7 +143,7 @@ if (isset($_POST['login_submit'])) {
     </div>
 
     <div class="container" id="signup" style="display:none;">
-      <h1 class="form-title">Register Here</h1>
+      <h1 class="form-title">Sign Up</h1>
       <form method="post">
         <div class="input-group">
           <i class="fas fa-user"></i>
@@ -192,7 +192,7 @@ if (isset($_POST['login_submit'])) {
     </div>
 
     <div class="container" id="signIn">
-      <h1 class="form-title">Sign In as a Lecture</h1>
+      <h1 class="form-title">Sign In</h1>
       <form method="post">
         <div class="input-group">
           <i class="fas fa-envelope"></i>
