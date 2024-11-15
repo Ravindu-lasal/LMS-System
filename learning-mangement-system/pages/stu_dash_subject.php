@@ -1,9 +1,16 @@
 <?php
+include('../inc/db_connect.php');
 session_start();
-
+$lecId = isset($_SESSION['lec_id']) ? $_SESSION['lec_id'] : null;
 ?>
 
-
+<?php
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $sql = "DELETE FROM lecture_enroll WHERE enroll_id=$id";
+    $conn->query($sql);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,7 +99,6 @@ session_start();
 
         .container {
             display: flex;
-            height: 100vh;
         }
 
         .sidebar {
@@ -315,7 +321,7 @@ session_start();
                 <li><a href="contact.php">Contact</a></li>
             </ul>
             <div class="auth-buttons">
-                <a href="#" class="btn logout">Log Out</a>
+                <a href="../inc/logout.php" class="btn logout">Log Out</a>
 
             </div>
         </div>
@@ -383,7 +389,7 @@ session_start();
             }
         </style>
 
-        <form action="stu_dash_subject.php" method="post" class="custom-form">
+        <form action="" method="post" class="custom-form">
             <div class="form-group mb-3">
                 <label for="url" class="form-label">URL:</label>
                 <input type="url" class="form-control" id="url" name="url" placeholder="Enter URL" required>
@@ -393,7 +399,7 @@ session_start();
 
                 <select class="form-select" id="subject" name="subject" required>
                     <?php
-                    include_once "../inc/db_connect.php";
+
 
                     if (isset($_GET['subject'])) {
                         $subjectId = $_GET['subject'];
@@ -462,19 +468,19 @@ session_start();
                 <tr>
                     <th>URL</th>
                     <th>Subject</th>
-                    <th>Lecturer ID</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $stmt = $conn->prepare("SELECT link, subject_id FROM lecture_enroll WHERE user_id = ?");
+                $stmt = $conn->prepare("SELECT enroll_id, link, subject_id FROM lecture_enroll WHERE user_id = ?");
                 $stmt->bind_param("i", $lecId);
                 $stmt->execute();
                 $result = $stmt->get_result();
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . htmlspecialchars($row['link']) . "</td><td>" . htmlspecialchars($row['subject_id']) . "</td></tr>";
+                        echo "<tr><td>" . htmlspecialchars($row['link']) . "</td><td>" . htmlspecialchars($row['subject_id']) . "</td><td><a href=\"?delete=" . $row['enroll_id'] . "\" onclick=\"return confirm('Are you sure you want to delete this resource?')\"><i class=\"fas fa-trash-alt\"></i></a></td></tr>";
                     }
                 } else {
                     echo "<tr><td colspan=\"3\">No data available</td></tr>";
