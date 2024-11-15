@@ -15,10 +15,22 @@ if (isset($_POST["id"])) {
 
 <?php
 
+if (isset($_POST['subject_id'])) {
+    $subject_id = $_POST['subject_id'];
+    $subject_name = $_POST['subject_name'];
+    $subject_code = $_POST["subject_code"];
+
+    $sql = "UPDATE subject SET subject_code = ?, subject_name = ? WHERE subject_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssi", $subject_code, $subject_name, $subject_id);
+    $stmt->execute();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $subject_code = trim($_POST['subject_code']);
     $subject_name = trim($_POST['subject_name']);
+
 
     if (empty($subject_code) || empty($subject_name)) {
         header('location:./subject.php?massage=Subject code and subject name are required.!');
@@ -165,7 +177,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <thead class="bg-light">
                                 <tr>
                                     <th>Name</th>
-                                    <th>Title</th>
+                                    <th>Code</th>
                                     <th>Actions</th>
 
                                 </tr>
@@ -176,17 +188,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 ?>
 
                                     <tr>
-                                        <td><?php echo $subject['subject_code'] ?></td>
+                                        <form id="subjectUpdateForm">
+                                            <td>
+                                                <input type="text" name="name" value="<?php echo $subject['subject_name'] ?>" class="form-control">
+                                            </td>
 
-                                        <td><?php echo $subject['subject_name'] ?></td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                                <i class="fas fa-trash-alt" onclick="deleteUser(<?php echo $subject['subject_id'] ?>,event)"></i>
-                                            </button>
-                                        </td>
+                                            <td>
+                                                <input type="text" name="title" value="<?php echo $subject['subject_code'] ?>" class="form-control">
+                                            </td>
+                                            <td>
+                                                <button type="submit" class="btn btn-success btn-sm" onclick="updateSubject(<?php echo $subject['subject_id'] ?>,event)">
+                                                    update
+                                                </button>
+                                                <button type="button" class="btn btn-link btn-sm btn-rounded">
+                                                    <i class="fas fa-trash-alt" onclick="deleteUser(<?php echo $subject['subject_id'] ?>,event)"></i>
+                                                </button>
+                                            </td>
+                                        </form>
                                     </tr>
                                 <?php } ?>
 
@@ -228,7 +246,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
                         <div class="text-muted">Copyright &copy; Bus Managment System easy 2024</div>
-
                     </div>
                 </div>
             </footer>
@@ -248,8 +265,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             }
             xhr.send(`id=${subjectId}`);
+        }
 
 
+
+        function updateSubject(subjectId, event) {
+            event.preventDefault(); // Prevent the form from submitting traditionally
+
+            // Select the form fields
+            const nameField = document.querySelector(`input[name="name"]`);
+            const codeField = document.querySelector(`input[name="title"]`);
+
+            const name = nameField.value.trim();
+            const code = codeField.value.trim();
+
+            if (!name || !code) {
+                alert("Both subject name and code are required!");
+                return;
+            }
+
+            // Prepare the AJAX request
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'subject.php');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            // Handle the response
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    alert('Subject updated successfully!');
+                    window.location.reload(); // Reload the page to show updated data
+                } else {
+                    alert('Error updating subject. Please try again.');
+                }
+            };
+
+            // Send data
+            xhr.send(`subject_id=${subjectId}&subject_name=${encodeURIComponent(name)}&subject_code=${encodeURIComponent(code)}`);
         }
     </script>
 </body>
