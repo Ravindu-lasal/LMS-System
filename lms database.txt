@@ -52,5 +52,7 @@ CREATE TABLE feedback (
     f_name VARCHAR(255) NOT NULL,
     f_email VARCHAR(255) UNIQUE NOT NULL,
     comment VARCHAR(255) NOT NULL,
-    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_type INT DEFAULT 0
+
 );
