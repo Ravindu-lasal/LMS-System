@@ -432,6 +432,8 @@ session_start();
             $stmt->bind_param("sii", $url, $subject, $lecId);
             $stmt->execute();
             $stmt->close();
+
+            echo "<script>window.location.href = 'stu_dash_subject.php?subject=" . $subject . "';</script>";
         }
         ?>
 
