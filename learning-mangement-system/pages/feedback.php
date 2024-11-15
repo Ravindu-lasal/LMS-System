@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+include('../inc/db_connect.php');
 
+session_start();
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -18,18 +22,9 @@
 <body>
 
     <!-- Header -->
-    <header>
-        <div class="navbar">
-            <div class="logo"><img src="../assets/Images/logo-edit-2.png" alt="Logo">
-                <p>Learning Management Sysetem -SLIATE - Kegalle</p>
-            </div>
-            <ul class="nav-links">
-            </ul>
-            <div class="auth-buttons">
-                <a href="../index.php" class="btn logout">Home</a>
-            </div>
-        </div>
-    </header>
+    <?php
+    include('./student_inc/stu_nav.php');
+    ?>
 
 
     <!-- Main Heading: Contact Us -->
@@ -41,7 +36,7 @@
 
         <!-- Left Side: Image -->
         <div class="image-container">
-            <img src="../assets/Images/Contact/contact_img_home.jpg" alt="Description of image" class="img-fluid"> <!-- Replace with your image path -->
+            <img src="https://img.freepik.com/free-photo/3d-character-emerging-from-smartphone_23-2151336704.jpg?t=st=1731674098~exp=1731677698~hmac=fc881f8f51bdfb64aa0f00fc18354e213f261401de2b56fd1783638cd39a9e91&w=1380" alt="Description of image" class="img-fluid"> <!-- Replace with your image path -->
         </div>
 
         <!-- Middle: Paragraph -->
@@ -59,6 +54,30 @@
             </div>
 
             <!-- Replaced the form with the new one -->
+            <form class="student-form" method="POST">
+                <div class="mb-3">
+                    <label for="studentName" class="form-label">Name:</label>
+                    <input type="text" id="studentName" name="studentName" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="studentEmail" class="form-label">Email:</label>
+                    <input type="email" id="studentEmail" name="studentEmail" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="studentID" class="form-label">Student ID:</label>
+                    <input type="text" id="studentID" name="studentID" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message:</label>
+                    <textarea id="message" name="message" rows="4" class="form-control" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Send Message</button> <!-- Submit button -->
+            </form>
+
         </div>
 
     </div> <!-- End of contact-details-container -->
