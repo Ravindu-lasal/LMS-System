@@ -37,7 +37,7 @@ if (isset($_POST['signUp_submit'])) {
       $message[] = 'confirm password not matched!';
     } else {
       mysqli_query($conn, "INSERT INTO `users` (fullName, address, contact, email, password) VALUES ('$name', '$address', '$contact', '$email', '$pass')") or die('query failed');
-      $message[] = 'registered successfully!';
+      $message2[] = 'registered successfully!';
     }
   }
 }
@@ -105,6 +105,7 @@ if (isset($_POST['login_submit'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register & Login</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
@@ -117,6 +118,19 @@ if (isset($_POST['login_submit'])) {
       <div class="msg_box container text-center text-danger fs-4 p-1 mt-2 mb-3">
          <span>' . $message . '</span>
         <a class = "b_register" href = "#register" onclick="this.parentElement.remove();"><i class="fas fa-times text-danger fs-3"></i> </a>
+      </div>
+      ';
+    }
+  }
+  ?>
+
+  <?php
+  if (isset($message2)) {
+    foreach ($message2 as $message2) {
+      echo '
+      <div class="msg_box container text-center text-success fs-4 p-1 mt-2 mb-3">
+         <span>' . $message2 . '</span>
+        <a class = "b_register" href = "#register" onclick="this.parentElement.remove();"><i class="fas fa-check text-success fs-3"></i> </a>
       </div>
       ';
     }
