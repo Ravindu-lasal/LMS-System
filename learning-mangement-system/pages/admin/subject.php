@@ -1,19 +1,43 @@
 <?php
 include_once "../../inc/db_connect.php";
 
-$sql = "SELECT * FROM users";
-$users = mysqli_query($conn, $sql);
+$sql = "SELECT * FROM subject";
+$subjects = mysqli_query($conn, $sql);
 
 if (isset($_POST["id"])) {
     $id = $_POST["id"];
 
-    $sql = "DELETE FROM users WHERE id=$id";
+    $sql = "DELETE FROM subject WHERE subject_id=$id";
     $conn->query($sql);
 }
 
+?>
 
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $subject_code = trim($_POST['subject_code']);
+    $subject_name = trim($_POST['subject_name']);
+
+    if (empty($subject_code) || empty($subject_name)) {
+        header('location:./subject.php?massage=Subject code and subject name are required.!');
+    } else {
+
+        $stmt = $conn->prepare("INSERT INTO subject (subject_code, subject_name) VALUES (?, ?)");
+        $stmt->bind_param("ss", $subject_code, $subject_name);
+
+        if ($stmt->execute()) {
+            header('location:./subject.php?massage=Subject added successfully!');
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+        $stmt->close();
+    }
+}
 
 ?>
+<a href="./subject.php"></a>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +99,7 @@ if (isset($_POST["id"])) {
                         </a>
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#">Manage Users</a>
+                                <a class="nav-link" href="users.php">Manage Users</a>
                                 <a class="nav-link" href="subject.php">Manage Subject</a>
                                 <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
                             </nav>
@@ -130,70 +154,75 @@ if (isset($_POST["id"])) {
         </div>
         <div id="layoutSidenav_content">
             <main>
-                <div class="container-fluid px-4">
-                    <h1 class="mt-4">User Details</h1>
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">User Details</li>
-                    </ol>
-                    <table class="table align-middle mb-0 bg-white">
-                        <thead class="bg-light">
-                            <tr>
-                                <th>Name</th>
-                                <th>Title</th>
-                                <th>User Type</th>
-                                <th>Position</th>
-                                <th>Actions</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <?php
-                            foreach ($users as $user) {
-                            ?>
-
+                <div class="container-fluid px-3 d-flex justify-content-between flex-wrap">
+                    <div class="border boder-5 boder-red col-7 ">
+                        <h1 class="mt-4">Subject Details</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Subject Details</li>
+                        </ol>
+                        <table class="table align-middle mb-0 bg-white ">
+                            <thead class="bg-light">
                                 <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img
-                                                src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                                                alt=""
-                                                style="width: 45px; height: 45px"
-                                                class="rounded-circle" />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1"><?php ?></p>
-                                                <p class="text-muted mb-0"><?php echo $user['email'] ?></p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="fw-normal mb-1">Software engineer</p>
-                                        <p class="text-muted mb-0">IT department</p>
-                                    </td>
-                                    <td>
-                                        <span class="badge rounded-pill bg-danger"><?php echo $user['user_type'] ?></span>
-                                    </td>
-                                    <td>Senior</td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                            <i class="fas fa-trash-alt" onclick="deleteUser(<?php echo $user['id'] ?>,event)"></i>
-                                        </button>
-                                    </td>
+                                    <th>Name</th>
+                                    <th>Title</th>
+                                    <th>Actions</th>
+
                                 </tr>
-                            <?php } ?>
+                            </thead>
+                            <tbody>
+                                <?php
+                                foreach ($subjects as $subject) {
+                                ?>
+
+                                    <tr>
+                                        <td><?php echo $subject['subject_code'] ?></td>
+
+                                        <td><?php echo $subject['subject_name'] ?></td>
+                                        <td>
+                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
+                                                <i class="fas fa-trash-alt" onclick="deleteUser(<?php echo $subject['subject_id'] ?>,event)"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
 
 
-                        </tbody>
-                    </table>
-                    <div style="height: 100vh"></div>
-                    <div class="card mb-4">
-                        <div class="card-body">When scrolling, the navigation stays at the top of the page. This is the end of the static navigation demo.</div>
+                            </tbody>
+                        </table>
+                        <div style="height: 100vh"></div>
+
+                        <div class="card mb-4">
+                            <div class="card-body">When scrolling, the navigation stays at the top of the page. This is the end of the static navigation demo.</div>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="px-2 col-lg-5 col-md-12 mt-lg-0 mt-4">
+                        <div class="card mt-5">
+                            <div class="card-header bg-dark text-white">
+                                <h2 class="mt-2">Add Subject</h2>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" action="">
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="inputsubject" name="subject_code" type="text" placeholder="Subject Code" required />
+                                        <label for="inputsubject">Add Subject Code</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="inputtext" name="subject_name" type="text" placeholder="Subject Name" required />
+                                        <label for="inputtext">Add Subject Name</label>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <button type="submit" class="btn btn-dark w-100">Add Subject</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
@@ -209,16 +238,16 @@ if (isset($_POST["id"])) {
     <script src="js/scripts.js"></script>
 
     <script>
-        function deleteUser(userId, event) {
+        function deleteUser(subjectId, event) {
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'users.php');
+            xhr.open('POST', 'subject.php');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = () => {
                 if (xhr.status === 200) {
                     window.location.reload();
                 }
             }
-            xhr.send(`id=${userId}`);
+            xhr.send(`id=${subjectId}`);
 
 
         }

@@ -1,0 +1,46 @@
+-- Create the database
+CREATE DATABASE lms1;
+
+-- Use the database
+USE lms1;
+
+-- Create the users table
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fullname VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    contact VARCHAR(15) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    user_type VARCHAR(55) DEFAULT 'student',
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create the subject table
+CREATE TABLE subject (
+    subject_id INT AUTO_INCREMENT PRIMARY KEY,
+    subject_code VARCHAR(50) UNIQUE NOT NULL,
+    subject_name VARCHAR(255) NOT NULL,
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create the lecture_enroll table
+CREATE TABLE lecture_enroll (
+    subject_id INT NOT NULL,
+    user_id INT NOT NULL,
+    enrollment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (subject_id, user_id),
+    FOREIGN KEY (subject_id) REFERENCES subject(subject_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Create the marks table
+CREATE TABLE marks (
+    subject_id INT NOT NULL,
+    user_id INT NOT NULL,
+    credits INT NOT NULL,
+    PRIMARY KEY (subject_id, user_id),
+    FOREIGN KEY (subject_id) REFERENCES subject(subject_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
