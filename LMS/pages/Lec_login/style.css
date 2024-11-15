@@ -1,0 +1,193 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background-color: #fffac9;
+    background: linear-gradient(to right, #3b8ffc8e, #fff5c9);
+}
+
+.container {
+    background: #e3eefce7;
+    width: 450px;
+    padding: 1.5rem;
+    margin: 50px auto;
+    border-radius: 10px;
+    box-shadow: 0 0px 35px rgb(0, 0, 0);
+}
+
+form {
+    margin: 0 2rem;
+}
+
+.form-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 1.3rem;
+    margin-bottom: 0.4rem;
+}
+
+input,
+select {
+    color: inherit;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #757575;
+    padding-left: 1.5rem;
+    font-size: 15px;
+}
+
+.input-group {
+    padding: 1% 0;
+    position: relative;
+}
+
+.input-group i {
+    position: absolute;
+    color: black;
+}
+
+input:focus,
+select:focus {
+    background-color: transparent;
+    outline: transparent;
+    border-bottom: 2px solid hsl(29, 90%, 28%);
+}
+
+input::placeholder {
+    color: transparent; /* Hide placeholder text */
+}
+
+label {
+    color: #757575;
+    position: relative;
+    left: 1.2em;
+    top: -1.3em; /* Adjust label position */
+    cursor: auto;
+    transition: 0.3s ease all; /* Smooth transition */
+}
+
+/* Adjust label positioning for input and select */
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label,
+select:focus ~ label,
+select:not(:placeholder-shown) ~ label {
+    top: -3em; /* Move label up */
+    color: hsl(29, 90%, 28%);
+    font-size: 15px; /* Adjust font size */
+}
+
+.recover {
+    text-align: right; 
+    font-size: 1rem; 
+    margin-bottom: 1rem; 
+}
+
+.recover a {
+    text-decoration: none; 
+    color: rgb(228, 133, 56); 
+}
+
+.recover a:hover {
+    color: blue; 
+    text-decoration: underline; 
+}
+
+.btn {
+    font-size: 1.1rem; 
+    padding: 8px 0; 
+    border-radius: 5px; 
+    outline:none; 
+    border:none; 
+    width:100%; 
+    background: rgb(228, 133, 56); 
+    color:white; 
+    cursor:pointer; 
+    transition:.9s; 
+}
+
+.btn:hover {
+   background:hwb(214,58%,4%); /* Change background on hover */
+}
+
+.or {
+   font-size:.9rem; 
+   margin-top:.5rem; 
+   text-align:center; 
+}
+
+.icons {
+   text-align:center; 
+}
+
+.icons i {
+   color : rgb(228,133,56); 
+   padding:.8rem 1.5rem; 
+   border-radius :10px; 
+   font-size :1.5rem; 
+   cursor:pointer; 
+   border :2px solid hwb(214,58%,4%); 
+   margin :0 15px; 
+   transition :1s; 
+}
+
+.icons i:hover {
+   background:hwb(214,58%,4%); /* Change background on hover */
+   font-size :1.2rem; /* Increase size on hover */
+   border :2px solid rgb(228,133,56); /* Change border on hover */
+}
+
+.links {
+   display:flex; 
+   justify-content :space-around; 
+   padding :0 4rem; 
+   margin-top :.9rem; 
+   font-weight:bold; 
+}
+
+button {
+   color :rgb(228,133,56); /* Button text color */
+   border:none; /* No border */
+   background-color :transparent; /* Transparent background */
+   font-size :1rem; /* Font size for button */
+   font-weight:bold; /* Bold text */
+}
+
+button:hover {
+   text-decoration :underline; /* Underline on hover */
+   color :blue ; /* Change color on hover */
+}
+
+/* Flexbox for form wrapper */
+.form-wrapper {
+   display:flex ; /* Flexbox layout */
+   justify-content :center ; /* Center content horizontally */
+   align-items :center ; /* Center content vertically */
+   max-width :900px ; /* Max width of form wrapper */
+   margin :50px auto ; /* Center margins vertically and horizontally */
+   background :#fff ; /* Background color of form wrapper */
+   padding :1.5rem ; /* Padding around the form wrapper */
+   border-radius :10px ; /* Rounded corners for form wrapper */
+   box-shadow :0 20px 35px rgb(0,0,0); /* Shadow effect for depth */
+}
+
+/* Image styling in the form wrapper */
+.form-image {  
+   flex :1 ; /* Take up one part of the flex container */  
+   padding-right :20px ; /* Right padding */  
+}  
+
+.form-image img {  
+   width :100% ; /* Full width image */  
+   height:auto ; /* Maintain aspect ratio */  
+   border-radius :10px ; /* Rounded corners for image */  
+}  
+
+.container {  
+   flex :1 ; /* Take up remaining space in flex container */  
+}
