@@ -1,0 +1,127 @@
+/* General Body Styles */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.7;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #333; /* Softer text color */
+}
+
+/* Header Styles */
+header {
+    background-color: #005f8d; /* Slightly darker shade for a professional look */
+    color: white;
+    padding: 25px 0;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Section Styles */
+.course-details, 
+.course-objectives, 
+.course-structure, 
+.eligibility, 
+.duration {
+    background-color: white;
+    padding: 25px;
+    margin: 30px auto;
+    max-width: 900px; /* Constrain the width for better readability */
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Larger shadow for depth */
+    border-left: 5px solid #005f8d; /* Accent border for sections */
+}
+
+.course-details h2, 
+.course-objectives h2, 
+.course-structure h2, 
+.eligibility h2, 
+.duration h2 {
+    color: #005f8d;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    border-bottom: 2px solid #f0f0f0; /* Subtle divider under headings */
+    padding-bottom: 10px;
+}
+
+.course-details p, 
+.course-objectives p, 
+.course-structure p, 
+.eligibility p, 
+.duration p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: #555; /* Softer text color for paragraphs */
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-size: 1em;
+    color: #333;
+}
+
+table th {
+    background-color: #005f8d;
+    color: white;
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: #f4f4f4; /* Alternate row background for better readability */
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 30px;
+    background-color: #005f8d;
+    color: white;
+    font-size: 1.2em;
+    margin-top: 50px;
+}
+
+footer a {
+    color: white;
+    text-decoration: underline;
+}
+
+footer a:hover {
+    color: #e0e0e0;
+    text-decoration: none; /* Remove underline on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+
+    .course-details, 
+    .course-objectives, 
+    .course-structure, 
+    .eligibility, 
+    .duration {
+        margin: 20px 10px;
+        padding: 20px;
+    }
+
+    table th, table td {
+        padding: 10px;
+    }
+}
