@@ -1,3 +1,21 @@
+<?php
+include_once "../../inc/db_connect.php";
+
+$sql = "SELECT * FROM users";
+$users = mysqli_query($conn, $sql);
+
+if ($_POST["id"]) {
+    $id = $_POST["id"];
+}
+
+if ($id) {
+    $sql = "DELETE FROM users WHERE id=$id";
+    $conn->query($sql);
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -123,102 +141,52 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Title</th>
-                                <th>Status</th>
+                                <th>User Type</th>
                                 <th>Position</th>
                                 <th>Actions</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img
-                                            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                                            alt=""
-                                            style="width: 45px; height: 45px"
-                                            class="rounded-circle" />
-                                        <div class="ms-3">
-                                            <p class="fw-bold mb-1">John Doe</p>
-                                            <p class="text-muted mb-0">john.doe@gmail.com</p>
+
+                            <?php
+                            foreach ($users as $user) {
+                            ?>
+
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img
+                                                src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                                                alt=""
+                                                style="width: 45px; height: 45px"
+                                                class="rounded-circle" />
+                                            <div class="ms-3">
+                                                <p class="fw-bold mb-1"><?php ?></p>
+                                                <p class="text-muted mb-0"><?php echo $user['email'] ?></p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="fw-normal mb-1">Software engineer</p>
-                                    <p class="text-muted mb-0">IT department</p>
-                                </td>
-                                <td>
-                                    <span class="badge badge-success rounded-pill d-inline">Active</span>
-                                </td>
-                                <td>Senior</td>
-                                <td>
-                                    <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                        Edit
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img
-                                            src="https://mdbootstrap.com/img/new/avatars/6.jpg"
-                                            class="rounded-circle"
-                                            alt=""
-                                            style="width: 45px; height: 45px" />
-                                        <div class="ms-3">
-                                            <p class="fw-bold mb-1">Alex Ray</p>
-                                            <p class="text-muted mb-0">alex.ray@gmail.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="fw-normal mb-1">Consultant</p>
-                                    <p class="text-muted mb-0">Finance</p>
-                                </td>
-                                <td>
-                                    <span class="badge badge-primary rounded-pill d-inline">Onboarding</span>
-                                </td>
-                                <td>Junior</td>
-                                <td>
-                                    <button
-                                        type="button"
-                                        class="btn btn-link btn-rounded btn-sm fw-bold"
-                                        data-mdb-ripple-color="dark">
-                                        Edit
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img
-                                            src="https://mdbootstrap.com/img/new/avatars/7.jpg"
-                                            class="rounded-circle"
-                                            alt=""
-                                            style="width: 45px; height: 45px" />
-                                        <div class="ms-3">
-                                            <p class="fw-bold mb-1">Kate Hunington</p>
-                                            <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="fw-normal mb-1">Designer</p>
-                                    <p class="text-muted mb-0">UI/UX</p>
-                                </td>
-                                <td>
-                                    <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
-                                </td>
-                                <td>Senior</td>
-                                <td>
-                                    <button
-                                        type="button"
-                                        class="btn btn-link btn-rounded btn-sm fw-bold"
-                                        data-mdb-ripple-color="dark">
-                                        Edit
-                                    </button>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td>
+                                        <p class="fw-normal mb-1">Software engineer</p>
+                                        <p class="text-muted mb-0">IT department</p>
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill bg-danger"><?php echo $user['user_type'] ?></span>
+                                    </td>
+                                    <td>Senior</td>
+                                    <td>
+                                        <button type="button" class="btn btn-link btn-sm btn-rounded">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-link btn-sm btn-rounded">
+                                            <i class="fas fa-trash-alt" onclick="deleteUser(<?php echo $user['id'] ?>,event)"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+
+
                         </tbody>
                     </table>
                     <div style="height: 100vh"></div>
@@ -239,6 +207,22 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
+
+    <script>
+        function deleteUser(userId, event) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'users.php');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    window.location.reload();
+                }
+            }
+            xhr.send(`id=${userId}`);
+
+
+        }
+    </script>
 </body>
 
 </html>
