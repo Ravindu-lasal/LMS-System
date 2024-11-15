@@ -73,17 +73,19 @@ if (isset($_POST['login_submit'])) {
       $_SESSION['admin_email'] = $row['email'];
       $_SESSION['admin_id'] = $row['id'];
       header('location:./pages/admin/index.php');
+
+
     } elseif ($row['user_type'] == 'lecture') {
-
-      $_SESSION['user_name'] = $row['fullName'];
-      $_SESSION['user_email'] = $row['email'];
-      $_SESSION['user_id'] = $row['id'];
+      $_SESSION['lec_name'] = $row['fullName'];
+      $_SESSION['lec_email'] = $row['email'];
+      $_SESSION['lec_id'] = $row['id'];
       header('location:./lec_dashboard.php');
-    } elseif ($row['user_type'] == 'student') {
 
-      $_SESSION['user_name'] = $row['fullName'];
-      $_SESSION['user_email'] = $row['email'];
-      $_SESSION['user_id'] = $row['id'];
+
+    } elseif ($row['user_type'] == 'student') {
+      $_SESSION['st_name'] = $row['fullName'];
+      $_SESSION['st_email'] = $row['email'];
+      $_SESSION['st_id'] = $row['id'];
       header('location:./stu_dashboard.php');
     } else {
       $message[] = 'no user found!';

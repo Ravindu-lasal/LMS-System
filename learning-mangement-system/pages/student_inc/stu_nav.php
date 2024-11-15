@@ -11,7 +11,7 @@
             <li><a href="..\pages\contact.php">Contact</a></li>
         </ul>
         <div class="auth-buttons">
-            <a href="#" class="btn logout">Sign Out</a>
+            <a href="../inc/logout.php" class="btn logout">Sign Out</a>
 
         </div>
     </div>
