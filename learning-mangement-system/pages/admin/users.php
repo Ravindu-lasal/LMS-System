@@ -4,6 +4,15 @@ include_once "../../inc/db_connect.php";
 $sql = "SELECT * FROM users";
 $users = mysqli_query($conn, $sql);
 
+
+$user_type_filter = isset($_POST['user_type']) ? $_POST['user_type'] : '';
+
+$sql = "SELECT * FROM users";
+if (!empty($user_type_filter)) {
+    $sql .= " WHERE user_type = '" . mysqli_real_escape_string($conn, $user_type_filter) . "'";
+}
+$users = mysqli_query($conn, $sql);
+
 if (isset($_POST["id"])) {
     $id = $_POST["id"];
 
@@ -136,16 +145,25 @@ if (isset($_POST["id"])) {
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">User Details</h1>
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">User Details</li>
-                    </ol>
+                    <!-- Filter Form -->
+                    <form method="POST" action="" class="mb-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="user_type" class="form-label">Filter by User Type:</label>
+                                <select class="form-select" id="user_type" name="user_type" onchange="this.form.submit()">
+                                    <option value="">All</option>
+                                    <option value="admin" <?= isset($_POST['user_type']) && $_POST['user_type'] == 'admin' ? 'selected' : '' ?>>Admin</option>
+                                    <option value="lecture" <?= isset($_POST['user_type']) && $_POST['user_type'] == 'lecture' ? 'selected' : '' ?>>Lecture</option>
+                                    <option value="student" <?= isset($_POST['user_type']) && $_POST['user_type'] == 'student' ? 'selected' : '' ?>>Student</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
                     <table class="table align-middle mb-0 bg-white">
                         <thead class="bg-light">
                             <tr>
                                 <th>Name</th>
-                                <th>Title</th>
+                                <th>User Type</th>
                                 <th>User Type</th>
                                 <th>Position</th>
                                 <th>Actions</th>
@@ -173,12 +191,12 @@ if (isset($_POST["id"])) {
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="fw-normal mb-1">Software engineer</p>
-                                        <p class="text-muted mb-0">IT department</p>
+                                        <button class="btn btn-sm btn-<?php echo $user['user_type'] == 'admin' ? 'primary' : ($user['user_type'] == 'lecture' ? 'success' : 'info') ?>"><?php echo ucfirst($user['user_type']) ?></button>
+
                                     </td>
                                     <td>
                                         <select class="form-select" aria-label="Default select example" onchange="updateUserType(<?php echo $user['id'] ?>,this.value)">
-                                            <option selected><?php echo $user['user_type'] ?></option>
+                                            <option value="student">Student</option>
                                             <option value="admin">Admin</option>
                                             <option value="lecture">Lecture</option>
                                         </select>
