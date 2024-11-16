@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-include_once '../inc/db_connect.php';
+include_once '../../inc/db_connect.php"';
 
 if (isset($_SESSION['lec_id'])) {
     $lecturer_id = $_SESSION['lec_id'];
@@ -35,26 +35,20 @@ if (isset($_SESSION['lec_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lecturer Dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/stu_nav_footer.css">
+    <link rel="stylesheet" href="../../assets/css/stu_nav_footer.css">
+    <link rel="stylesheet" href="../../assets/css/courses_without_login.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
         body {
             background-color: #f4f4f4;
         }
 
         .container {
             display: flex;
-            height: 100vh;
+
         }
 
         .sidebar {
@@ -100,6 +94,7 @@ if (isset($_SESSION['lec_id'])) {
         }
 
         .lec-info h2 {
+            color: #3498db;
             font-size: 24px;
             margin-bottom: 40px;
         }
@@ -107,6 +102,19 @@ if (isset($_SESSION['lec_id'])) {
         .lec-info p {
             font-size: 16px;
             margin-bottom: 20px;
+        }
+
+        .lec-info p strong {
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+            margin: 4px 0px;
+
+        }
+
+        .lec-info p span {
+            color: #333;
+            font-weight: 500;
         }
 
         .subject-buttons {
@@ -153,7 +161,7 @@ if (isset($_SESSION['lec_id'])) {
 <body>
 
     <?php
-    include('./lec_inc/nav.php');
+    include('./lec_inc/lec_nav.php');
     ?>
 
     <div class="container">
@@ -169,25 +177,25 @@ if (isset($_SESSION['lec_id'])) {
         <div class="main-content">
             <!-- lec Info -->
 
-            <div class="lec-infoa" style="padding-top: 25px;">
+            <div class="lec-info" style="padding-top: 25px;">
                 <h2>Lecturer Information</h2>
+                <p style="margin-top: 12px;"><strong style="display: block; margin-top: 24px;">Register Date:</strong> <span style="font-weight: 400 ;"><?php echo htmlspecialchars($lecturer['create_date']); ?></span></p>
                 <p style="margin-top: 12px;"><strong style="display: block; margin-top: 24px;">Full Name:</strong> <span style="font-weight: 400 ;"><?php echo htmlspecialchars($lecturer['fullname']); ?></span></p>
                 <p style="margin-top: 12px;"><strong style="display: block; margin-top: 24px;">Address:</strong> <span style="font-weight: 400 ;"><?php echo htmlspecialchars($lecturer['address']); ?></span></p>
                 <p style="margin-top: 12px;"><strong style="display: block; margin-top: 24px;">Email:</strong> <span style="font-weight: 400 ;"><?php echo htmlspecialchars($lecturer['email']); ?></span></p>
                 <p style="margin-top: 12px;"><strong style="display: block; margin-top: 24px;">Contact:</strong> <span style="font-weight: 400 ;"><?php echo htmlspecialchars($lecturer['contact']); ?></span></p>
-                <p style="margin-top: 12px;"><strong style="display: block; margin-top: 24px;">Register Date:</strong> <span style="font-weight: 400 ;"><?php echo htmlspecialchars($lecturer['create_date']); ?></span></p>
             </div>
 
             <!-- Subject Buttons -->
             <div class="subject-buttons">
                 <?php
-                include_once "../inc/db_connect.php";
+                include_once "../../inc/db_connect.php";
                 $sql = "SELECT * FROM subject";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo '<a href="stu_dash_subject.php?subject=' . $row['subject_id'] . '"><button type="button" button class="subject red">' . $row['subject_name'] . '</button></a>';
+                        echo '<a href="../stu_dash_subject.php?subject=' . $row['subject_id'] . '"><button type="button" button class="subject red">' . $row['subject_name'] . '</button></a>';
                     }
                 } else {
                     echo "No subjects available";
@@ -199,7 +207,7 @@ if (isset($_SESSION['lec_id'])) {
     </div>
 
     <?php
-    include('./lec_inc/fotter.php');
+    include('./lec_inc/lec_footer.php');
     ?>
 
 
