@@ -14,7 +14,7 @@ if (isset($_GET['delete'])) {
 
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            header("Location: ./lec_dash_subject.php?subject=" . urlencode($row['subject_id']));
+            header("Location: " . htmlspecialchars($_SERVER['PHP_SELF']) . "?subject=" . urlencode($row['subject_id']));
         }
     }
     exit;
@@ -145,6 +145,36 @@ if (isset($_GET['delete'])) {
             padding: 40px;
             display: flex;
             justify-content: space-between;
+        }
+
+        .back_btn {
+            justify-content: end;
+            margin-left: 1300px;
+        }
+
+        .back_btn button {
+            background-color: #0077b5;
+            color: #f2f2f2;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 20px;
+            margin: 20px;
+            border: none;
+            text-align: center;
+            width: 100px;
+            justify-content: end;
+            align-items: center;
+
+        }
+
+        .back_btn button:hover {
+            background-color: #005fa3;
+        }
+
+        .back_btn button a {
+            color: #ffffff;
+            text-decoration: none;
         }
 
         .subject {
@@ -321,40 +351,17 @@ if (isset($_GET['delete'])) {
 
 <body>
 
-    <!-- <header>
-        <div class="navbar">
-            <div class="logo"><img src="../assets/LMS_logo re.jpg"></div>
-            <ul class="nav-links">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="#">Courses</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="contact.php">Contact</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <a href="../inc/logout.php" class="btn logout">Log Out</a>
-
-            </div>
-        </div>
-    </header> -->
+    <div class="back_btn">
+        <button><a href="./lec_dashboard.php">GO Back</a></button>
+    </div>
 
     <div class="subject">
-
-        <?php
-        include_once "../../inc/db_connect.php";
-        $sql = "SELECT * FROM subject";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo $row['subject_name'];
-            }
-        } else {
-            echo "No subjects available";
-        }
-        $conn->close();
-        ?>
-
+        <i class="fas fa-book"></i>
     </div>
+
+
+
+
     <div class="button-container">
         <button class="button1">Lec Material</button>
         <button class="button2">Pass Papers</button>
