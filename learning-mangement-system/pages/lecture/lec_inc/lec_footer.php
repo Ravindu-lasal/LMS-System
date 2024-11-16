@@ -1,7 +1,8 @@
 <footer class="footer bg-light py-4"> <!-- Changed background color to light -->
     <div class="container d-flex justify-content-between align-items-start">
         <div class="logo">
-            <img src="../assets/LMS_logo re.jpg" alt="Logo" class="img-fluid" style="max-width: 150px;"> <!-- Replace with your logo path -->
+            <img src="../../assets/Images/logo-edit-2.png" alt="Logo" class="img-fluid" style="max-width: 150px;">
+            <p>LMS - SLIATE</p> <!-- Replace with your logo path -->
         </div>
         <div class="quick-links">
             <h5>Quick Links</h5>
