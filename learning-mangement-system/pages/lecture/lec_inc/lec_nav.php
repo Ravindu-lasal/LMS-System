@@ -10,7 +10,7 @@
             <li><a href="./lec_contact.php">Contact</a></li>
         </ul>
         <div class="auth-buttons">
-            <a href="../../../inc/logout.php" class="btn logout">Log Out</a>
+            <a href="../../inc/logout.php" class="btn logout">Log Out</a>
 
         </div>
     </div>
