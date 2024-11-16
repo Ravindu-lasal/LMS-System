@@ -148,9 +148,20 @@ if (isset($_GET['delete'])) {
         }
 
         .back_btn {
-            justify-content: end;
-            margin-left: 1300px;
+            justify-content: space-around;
+            display: flex;
+            text-align: center;
+            align-items: center;
 
+        }
+
+        .back_btn h2 {
+            padding: 20px;
+            font-size: 35px;
+            font-weight: 600;
+            color: #005fa3;
+            border-bottom: 5px solid #3b5998;
+            text-transform: capitalize;
         }
 
         .back_btn button {
@@ -353,6 +364,7 @@ if (isset($_GET['delete'])) {
 <body>
 
     <div class="back_btn">
+        <h2>Manage your Subject Resources</h2>
         <button><a href="./lec_dashboard.php">GO Back</a></button>
     </div>
 
