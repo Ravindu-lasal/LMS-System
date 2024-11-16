@@ -122,32 +122,19 @@ $conn->close();
               <div class="sb-nav-link-icon">
                 <i class="fas fa-book-open"></i>
               </div>
-              Interface
-              <div class="sb-sidenav-collapse-arrow">
-                <i class="fas fa-angle-down"></i>
-              </div>
-            </a>
-            <div class="collapse" id="collapsePages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-              <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="../../index.php">Main Page</a>
-                <a class="nav-link" href="../signup.php">Sign in </a>
-                <a class="nav-link" href="subject.php">Sign up </a>
-              </nav>
-            </div>
 
-
-            <div class="sb-sidenav-menu-heading">User review</div>
-            <a class="nav-link" href="./student_feedback.php">
-              <div class="sb-nav-link-icon">
-                <i class="fas fa-chart-area"></i>
-              </div>
-              Students Feedback
-            </a>
+              <div class="sb-sidenav-menu-heading">User review</div>
+              <a class="nav-link" href="./student_feedback.php">
+                <div class="sb-nav-link-icon">
+                  <i class="fas fa-chart-area"></i>
+                </div>
+                Students Feedback
+              </a>
           </div>
         </div>
         <div class="sb-sidenav-footer">
           <div class="small">Logged in as:</div>
-          Lecture Managment System
+          <?php echo $_SESSION['admin_name'] ?>
         </div>
       </nav>
     </div>
