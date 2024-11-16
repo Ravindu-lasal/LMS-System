@@ -81,12 +81,11 @@ if (isset($_POST['send'])) {
 
         <!-- Right Side: Student Details Form -->
         <div class="form-container">
-            <h2>Get in Touch</h2> <!-- Heading for the Contact Us page -->
+            <h2>Get in Touch</h2>
             <div class="contact-info">
                 <p>If you have any questions, feel free to reach out to us!</p>
             </div>
 
-            <!-- Replaced the form with the new one -->
             <form class="student-form" method="POST">
                 <div class="mb-3">
                     <label for="studentName" class="form-label">Name:</label>
@@ -103,10 +102,10 @@ if (isset($_POST['send'])) {
                     <textarea id="message" name="message" rows="4" class="form-control" required></textarea>
                 </div>
 
-                <button type="submit" name="send" class="btn btn-primary">Send Message</button> <!-- Submit button -->
+                <button type="submit" name="send" class="btn btn-primary">Send Message</button>
             </form>
-
         </div>
+
 
     </div> <!-- End of contact-details-container -->
 

@@ -49,8 +49,6 @@ if (isset($_POST['signUp_submit'])) {
 <!-- login fun  -->
 
 <?php
-
-
 session_start();
 
 if (isset($_POST['login_submit'])) {

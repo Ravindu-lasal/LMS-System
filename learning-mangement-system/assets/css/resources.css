@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #0066cc;
+}
+
+h3{
+    text-align: center;
+    color: #333;
+}
+
+.subject-title {
+    margin-top: 30px;
+    font-size: 1.5em;
+    color: #0066cc;
+    border-bottom: 2px solid #0066cc;
+    padding-bottom: 5px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.table th, .table td {
+    text-align: left;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.table-striped tbody tr:nth-child(even) {
+    background-color: #fff;
+}
+
+a {
+    color: #007bff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+a:hover {
+    font-size: 15px;
+    color: brown;
+    
+}
+
+
+.back-btn{
+    justify-content: space-between;
+    display: flex;
+    margin: 10px;
+    padding: 20px;
+}
+
+.back-btn button{
+    background-color: #0077b5;
+    color: #f2f2f2;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 20px;
+    margin: 20px;
+    border: none;
+    text-align: center;
+    width: 100px;
+    justify-content: end;
+    align-items: center;
+}
+
+.back-btn button a{
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.back-btn button:hover{
+    background-color: #005f87;
+    cursor: pointer;
+    font-size: 18px;
+}
