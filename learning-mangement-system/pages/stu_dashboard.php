@@ -182,7 +182,7 @@ session_start();
             margin-right: -65px;
             margin-left: 50px;
             padding-bottom: 100px;
-            align-self: flex-start;
+            align-self: center;
         }
 
         .subject-buttons a {
@@ -204,8 +204,7 @@ session_start();
         }
 
         .subject-buttons :hover {
-            font-size: 27px;
-            background-color: darkred;
+            background-color: #3b5998;
         }
 
         .subject.red {
@@ -352,13 +351,7 @@ session_start();
 
                 <!-- Subject Buttons -->
                 <div class="subject-buttons">
-                    <a href="./subject_reso.php" button class="subject red">WEB</button></a>
-                    <a href="stu_dash_subject.php" button class="subject black">OOP</button></a>
-                    <a href="stu_dash_subject.php" button class="subject red">DBMS</button></a>
-                    <a href="stu_dash_subject.php" button class="subject black">IS</button></a>
-                    <a href="stu_dash_subject.php" button class="subject red">DSA</button></a>
-                    <a href="stu_dash_subject.php" button class="subject black">OS</button></a>
-                    <a href="stu_dash_subject.php" button class="subject red">Statics</button></a>
+                    <a href="./subject_reso.php"><button class="subject black">Subject Resources</button></a>
                 </div>
             </div>
         </div>
