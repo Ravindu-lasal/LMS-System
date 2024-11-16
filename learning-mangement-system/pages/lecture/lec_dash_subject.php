@@ -150,6 +150,7 @@ if (isset($_GET['delete'])) {
         .back_btn {
             justify-content: end;
             margin-left: 1300px;
+
         }
 
         .back_btn button {
