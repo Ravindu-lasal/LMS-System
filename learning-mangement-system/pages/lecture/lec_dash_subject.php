@@ -1,5 +1,5 @@
 <?php
-include('../inc/db_connect.php');
+include('../../inc/db_connect.php');
 session_start();
 $lecId = isset($_SESSION['lec_id']) ? $_SESSION['lec_id'] : null;
 ?>
@@ -9,6 +9,15 @@ if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $sql = "DELETE FROM lecture_enroll WHERE enroll_id=$id";
     $conn->query($sql);
+    $sql = "SELECT * FROM subject";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            header("Location: " . htmlspecialchars($_SERVER['PHP_SELF']) . "?subject=" . urlencode($row['subject_id']));
+        }
+    }
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -138,12 +147,44 @@ if (isset($_GET['delete'])) {
             justify-content: space-between;
         }
 
+        .back_btn {
+            justify-content: end;
+            margin-left: 1300px;
+
+        }
+
+        .back_btn button {
+            background-color: #0077b5;
+            color: #f2f2f2;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 20px;
+            margin: 20px;
+            border: none;
+            text-align: center;
+            width: 100px;
+            justify-content: end;
+            align-items: center;
+
+        }
+
+        .back_btn button:hover {
+            background-color: #005fa3;
+        }
+
+        .back_btn button a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
         .subject {
             background-color: #f44336;
             color: white;
             padding: 30px;
             font-size: 30px;
             font-weight: bold;
+            text-align: center;
             margin: 40px;
             margin-left: 630px;
             margin-right: 705px;
@@ -311,23 +352,17 @@ if (isset($_GET['delete'])) {
 
 <body>
 
-    <header>
-        <div class="navbar">
-            <div class="logo"><img src="../assets/LMS_logo re.jpg"></div>
-            <ul class="nav-links">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="#">Courses</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="contact.php">Contact</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <a href="../inc/logout.php" class="btn logout">Log Out</a>
+    <div class="back_btn">
+        <button><a href="./lec_dashboard.php">GO Back</a></button>
+    </div>
 
-            </div>
-        </div>
-    </header>
+    <div class="subject">
+        <i class="fas fa-book"></i>
+    </div>
 
-    <div class="subject">STATICS</div>
+
+
+
     <div class="button-container">
         <button class="button1">Lec Material</button>
         <button class="button2">Pass Papers</button>
@@ -399,7 +434,8 @@ if (isset($_GET['delete'])) {
 
                 <select class="form-select" id="subject" name="subject" required>
                     <?php
-
+                    include('../../inc/db_connect.php');
+                    session_start();
 
                     if (isset($_GET['subject'])) {
                         $subjectId = $_GET['subject'];
@@ -434,7 +470,7 @@ if (isset($_GET['delete'])) {
             $subject = $_POST['subject'];
             $lecId = $_SESSION['lec_id'];
 
-            $stmt = $conn->prepare("INSERT INTO lecture_enroll (link, subject_id,user_id) VALUES (?, ?,?)");
+            $stmt = $conn->prepare("INSERT INTO lecture_enroll (link, subject_id, user_id) VALUES (?, ?,?)");
             $stmt->bind_param("sii", $url, $subject, $lecId);
             $stmt->execute();
             $stmt->close();
@@ -445,6 +481,9 @@ if (isset($_GET['delete'])) {
             table {
                 border-collapse: collapse;
                 width: 100%;
+                margin-bottom: 40px;
+                padding: 10px;
+
             }
 
             th,
@@ -473,11 +512,26 @@ if (isset($_GET['delete'])) {
             </thead>
             <tbody>
                 <?php
+                // Ensure the database connection exists
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                // Correct column names based on your database schema
                 $stmt = $conn->prepare("SELECT enroll_id, link, subject_id FROM lecture_enroll WHERE user_id = ?");
+                if (!$stmt) {
+                    die("Error preparing statement: " . $conn->error); // Debugging message
+                }
+
+                // Bind parameters
+                $lecId = $_SESSION['lec_id']; // Assuming user ID is stored in the session
                 $stmt->bind_param("i", $lecId);
+
+                // Execute the query
                 $stmt->execute();
                 $result = $stmt->get_result();
 
+                // Display results in a table
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr><td>" . htmlspecialchars($row['link']) . "</td><td>" . htmlspecialchars($row['subject_id']) . "</td><td><a href=\"?delete=" . $row['enroll_id'] . "\" onclick=\"return confirm('Are you sure you want to delete this resource?')\"><i class=\"fas fa-trash-alt\"></i></a></td></tr>";
@@ -485,8 +539,12 @@ if (isset($_GET['delete'])) {
                 } else {
                     echo "<tr><td colspan=\"3\">No data available</td></tr>";
                 }
+
+                // Close the statement
                 $stmt->close();
                 ?>
+
+
             </tbody>
         </table>
     </div>

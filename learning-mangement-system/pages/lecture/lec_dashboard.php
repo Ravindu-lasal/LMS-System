@@ -168,8 +168,8 @@ if (isset($_SESSION['lec_id'])) {
         <!-- Sidebar -->
         <div class="sidebar">
             <ul>
-                <li><a href="time_table.php">Time Table</a></li>
-                <li><a href="lecturer_details.php">Lecturers</a></li>
+                <li><a href="../time_table.php">Time Table</a></li>
+                <li><a href="../lecturer_details.php">Lecturers</a></li>
             </ul>
         </div>
 
@@ -195,7 +195,7 @@ if (isset($_SESSION['lec_id'])) {
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo '<a href="../stu_dash_subject.php?subject=' . $row['subject_id'] . '"><button type="button" button class="subject red">' . $row['subject_name'] . '</button></a>';
+                        echo '<a href="./lec_dash_subject.php?subject=' . $row['subject_id'] . '"><button type="button" button class="subject red">' . $row['subject_name'] . '</button></a>';
                     }
                 } else {
                     echo "No subjects available";
