@@ -1,5 +1,5 @@
 <?php
-include('../inc/db_connect.php');
+include('../../inc/db_connect.php');
 session_start();
 $lecId = isset($_SESSION['lec_id']) ? $_SESSION['lec_id'] : null;
 ?>
@@ -144,6 +144,7 @@ if (isset($_GET['delete'])) {
             padding: 30px;
             font-size: 30px;
             font-weight: bold;
+            text-align: center;
             margin: 40px;
             margin-left: 630px;
             margin-right: 705px;
@@ -311,7 +312,7 @@ if (isset($_GET['delete'])) {
 
 <body>
 
-    <header>
+    <!-- <header>
         <div class="navbar">
             <div class="logo"><img src="../assets/LMS_logo re.jpg"></div>
             <ul class="nav-links">
@@ -325,9 +326,26 @@ if (isset($_GET['delete'])) {
 
             </div>
         </div>
-    </header>
+    </header> -->
 
-    <div class="subject">STATICS</div>
+    <div class="subject">
+
+        <?php
+        include_once "../../inc/db_connect.php";
+        $sql = "SELECT * FROM subject";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo $row['subject_name'];
+            }
+        } else {
+            echo "No subjects available";
+        }
+        $conn->close();
+        ?>
+
+    </div>
     <div class="button-container">
         <button class="button1">Lec Material</button>
         <button class="button2">Pass Papers</button>
@@ -399,7 +417,8 @@ if (isset($_GET['delete'])) {
 
                 <select class="form-select" id="subject" name="subject" required>
                     <?php
-
+                    include('../../inc/db_connect.php');
+                    session_start();
 
                     if (isset($_GET['subject'])) {
                         $subjectId = $_GET['subject'];
@@ -445,6 +464,9 @@ if (isset($_GET['delete'])) {
             table {
                 border-collapse: collapse;
                 width: 100%;
+                margin-bottom: 40px;
+                padding: 10px;
+
             }
 
             th,
@@ -473,20 +495,39 @@ if (isset($_GET['delete'])) {
             </thead>
             <tbody>
                 <?php
-                $stmt = $conn->prepare("SELECT enroll_id, link, subject_id FROM lecture_enroll WHERE user_id = ?");
+                // Ensure the database connection exists
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                // Correct column names based on your database schema
+                $stmt = $conn->prepare("SELECT id, link, subject_id FROM lecture_enroll WHERE user_id = ?");
+                if (!$stmt) {
+                    die("Error preparing statement: " . $conn->error); // Debugging message
+                }
+
+                // Bind parameters
+                $lecId = $_SESSION['user_id']; // Assuming user ID is stored in the session
                 $stmt->bind_param("i", $lecId);
+
+                // Execute the query
                 $stmt->execute();
                 $result = $stmt->get_result();
 
+                // Display results in a table
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . htmlspecialchars($row['link']) . "</td><td>" . htmlspecialchars($row['subject_id']) . "</td><td><a href=\"?delete=" . $row['enroll_id'] . "\" onclick=\"return confirm('Are you sure you want to delete this resource?')\"><i class=\"fas fa-trash-alt\"></i></a></td></tr>";
+                        echo "<tr><td>" . htmlspecialchars($row['link']) . "</td><td>" . htmlspecialchars($row['subject_id']) . "</td><td><a href=\"?delete=" . $row['id'] . "\" onclick=\"return confirm('Are you sure you want to delete this resource?')\"><i class=\"fas fa-trash-alt\"></i></a></td></tr>";
                     }
                 } else {
                     echo "<tr><td colspan=\"3\">No data available</td></tr>";
                 }
+
+                // Close the statement
                 $stmt->close();
                 ?>
+
+
             </tbody>
         </table>
     </div>
