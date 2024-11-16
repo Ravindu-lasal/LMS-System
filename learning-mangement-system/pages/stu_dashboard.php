@@ -352,7 +352,7 @@ session_start();
 
                 <!-- Subject Buttons -->
                 <div class="subject-buttons">
-                    <a href="stu_dash_subject.php" button class="subject red">WEB</button></a>
+                    <a href="./subject_reso.php" button class="subject red">WEB</button></a>
                     <a href="stu_dash_subject.php" button class="subject black">OOP</button></a>
                     <a href="stu_dash_subject.php" button class="subject red">DBMS</button></a>
                     <a href="stu_dash_subject.php" button class="subject black">IS</button></a>
