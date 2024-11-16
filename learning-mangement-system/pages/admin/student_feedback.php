@@ -108,7 +108,7 @@ if (isset($_POST['delete']) && isset($_POST['f_id'])) {
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <li><a class="dropdown-item" href="../../inc/logout.php">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -275,7 +275,7 @@ if (isset($_POST['delete']) && isset($_POST['f_id'])) {
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Bus Managment System easy 2024</div>
+                        <div class="text-muted">Copyright &copy; lecture Managment System easy 2024</div>
 
                     </div>
                 </div>

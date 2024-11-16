@@ -1,3 +1,21 @@
+<?php
+Session_start();
+include('../../inc/db_connect.php');
+
+
+$studentCount = $conn->query("SELECT COUNT(*) AS count FROM users WHERE user_type = 'student'")->fetch_assoc()['count'];
+$lecturerCount = $conn->query("SELECT COUNT(*) AS count FROM users WHERE user_type = 'lecture'")->fetch_assoc()['count'];
+$subjectCount = $conn->query("SELECT COUNT(*) AS count FROM subject")->fetch_assoc()['count'];
+$feedbackCount = $conn->query("SELECT COUNT(*) AS count FROM feedback")->fetch_assoc()['count'];
+
+
+$sql = "SELECT id, fullname, email, contact, address, user_type FROM users";
+$result = $conn->query($sql);
+
+$conn->close();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,6 +32,36 @@
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
   <!-- stylesheet card -->
+  <style>
+    .card {
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px;
+      background-color: #1a2d41;
+      color: white;
+    }
+
+    .card-body i {
+      font-size: 50px;
+      margin-bottom: 20px;
+    }
+
+    .card-body h3 {
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .card-body span {
+      font-size: 15px;
+
+    }
+  </style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -45,7 +93,7 @@
           <li>
             <hr class="dropdown-divider" />
           </li>
-          <li><a class="dropdown-item" href="#!">Logout</a></li>
+          <li><a class="dropdown-item" href="../../inc/logout.php">Logout</a></li>
         </ul>
       </li>
     </ul>
@@ -68,7 +116,7 @@
               <div class="sb-nav-link-icon">
                 <i class="fas fa-columns"></i>
               </div>
-              Manage 
+              Manage
               <div class="sb-sidenav-collapse-arrow">
                 <i class="fas fa-angle-down"></i>
               </div>
@@ -125,29 +173,26 @@
 
           <div class="grey-bg container-fluid">
             <section id="minimal-statistics">
-              <div class="row">
-                <div class="col-12 mt-3 mb-1">
-                  <h4 class="text-uppercase">Minimal Statistics Cards</h4>
-                </div>
-              </div>
               <div class="row mb-3">
+                <!-- Student Count -->
                 <div class="col-xl-3 col-sm-6 col-12 mb-2">
                   <div class="card">
                     <div class="card-content">
-                      <div class="card-body bg-primary">
+                      <div class="card-body">
                         <div class="media d-flex">
                           <div class="align-self-center">
                             <i class="icon-pencil primary font-large-2 float-left"></i>
                           </div>
                           <div class="media-body text-right">
-                            <h3>278</h3>
-                            <span>New Posts</span>
+                            <h3><?php echo $studentCount; ?></h3>
+                            <span>All Students</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <!-- Lecturer Count -->
                 <div class="col-xl-3 col-sm-6 col-12 mb-2">
                   <div class="card">
                     <div class="card-content">
@@ -157,14 +202,15 @@
                             <i class="icon-speech warning font-large-2 float-left"></i>
                           </div>
                           <div class="media-body text-right">
-                            <h3>156</h3>
-                            <span>New Comments</span>
+                            <h3><?php echo $lecturerCount; ?></h3>
+                            <span>All Lectures</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <!-- Subject Count -->
                 <div class="col-xl-3 col-sm-6 col-12 mb-2">
                   <div class="card">
                     <div class="card-content">
@@ -174,14 +220,15 @@
                             <i class="icon-graph success font-large-2 float-left"></i>
                           </div>
                           <div class="media-body text-right">
-                            <h3>64.89 %</h3>
-                            <span>Bounce Rate</span>
+                            <h3><?php echo $subjectCount; ?></h3>
+                            <span>All Subjects</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <!-- Feedback Count -->
                 <div class="col-xl-3 col-sm-6 col-12 mb-2">
                   <div class="card">
                     <div class="card-content">
@@ -191,8 +238,8 @@
                             <i class="icon-pointer danger font-large-2 float-left"></i>
                           </div>
                           <div class="media-body text-right">
-                            <h3>423</h3>
-                            <span>Total Visits</span>
+                            <h3><?php echo $feedbackCount; ?></h3>
+                            <span>All Feedback</span>
                           </div>
                         </div>
                       </div>
@@ -202,6 +249,7 @@
               </div>
             </section>
           </div>
+
 
           <!-- <div class="row">
                             <div class="col-xl-3 col-md-6">
@@ -247,21 +295,41 @@
           <div class="card mb-4">
             <div class="card-header">
               <i class="fas fa-table me-1"></i>
-              DataTable Example
+              All users
             </div>
-            <div class="card-body">
+            <div class="card-body bg-light">
               <table class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead>
                   <tr class="text-dark">
-                    <th scope="col">Batch Year</th>
-                    <th scope="col">Batch Name</th>
-                    <th scope="col">Department</th>
-                    <th scope="col">Batch Semester</th>
-                    <th scope="col">Students</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">User Type</th>
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                  <?php
+                  if ($result->num_rows > 0) {
+                    // Output data of each row
+                    while ($row = $result->fetch_assoc()) {
+                      echo "<tr>
+                    <td>{$row['id']}</td>
+                    <td>{$row['fullname']}</td>
+                    <td>{$row['email']}</td>
+                    <td>{$row['contact']}</td>
+                    <td>{$row['address']}</td>
+                    <td>{$row['user_type']}</td>
+                </tr>";
+                    }
+                  } else {
+                    echo "<tr><td colspan='5'>No users found</td></tr>";
+                  }
+                  ?>
+                </tbody>
               </table>
+
             </div>
           </div>
         </div>

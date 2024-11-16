@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <li><a class="dropdown-item" href="../../inc/logout.php">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -203,11 +203,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             </tbody>
                         </table>
-                        <div style="height: 100vh"></div>
+                        <!-- <div style="height: 100vh"></div>
 
                         <div class="card mb-4">
                             <div class="card-body">When scrolling, the navigation stays at the top of the page. This is the end of the static navigation demo.</div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="px-2 col-lg-5 col-md-12 mt-lg-0 mt-4">
@@ -237,7 +237,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Bus Managment System easy 2024</div>
+                        <div class="text-muted">Copyright &copy; lecture Managment System easy 2024</div>
                     </div>
                 </div>
             </footer>
