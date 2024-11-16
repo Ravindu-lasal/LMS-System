@@ -9,6 +9,15 @@ if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $sql = "DELETE FROM lecture_enroll WHERE enroll_id=$id";
     $conn->query($sql);
+    $sql = "SELECT * FROM subject";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            header("Location: ./lec_dash_subject.php?subject=" . urlencode($row['subject_id']));
+        }
+    }
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -453,7 +462,7 @@ if (isset($_GET['delete'])) {
             $subject = $_POST['subject'];
             $lecId = $_SESSION['lec_id'];
 
-            $stmt = $conn->prepare("INSERT INTO lecture_enroll (link, subject_id,user_id) VALUES (?, ?,?)");
+            $stmt = $conn->prepare("INSERT INTO lecture_enroll (link, subject_id, user_id) VALUES (?, ?,?)");
             $stmt->bind_param("sii", $url, $subject, $lecId);
             $stmt->execute();
             $stmt->close();
@@ -501,13 +510,13 @@ if (isset($_GET['delete'])) {
                 }
 
                 // Correct column names based on your database schema
-                $stmt = $conn->prepare("SELECT id, link, subject_id FROM lecture_enroll WHERE user_id = ?");
+                $stmt = $conn->prepare("SELECT enroll_id, link, subject_id FROM lecture_enroll WHERE user_id = ?");
                 if (!$stmt) {
                     die("Error preparing statement: " . $conn->error); // Debugging message
                 }
 
                 // Bind parameters
-                $lecId = $_SESSION['user_id']; // Assuming user ID is stored in the session
+                $lecId = $_SESSION['lec_id']; // Assuming user ID is stored in the session
                 $stmt->bind_param("i", $lecId);
 
                 // Execute the query
@@ -517,7 +526,7 @@ if (isset($_GET['delete'])) {
                 // Display results in a table
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . htmlspecialchars($row['link']) . "</td><td>" . htmlspecialchars($row['subject_id']) . "</td><td><a href=\"?delete=" . $row['id'] . "\" onclick=\"return confirm('Are you sure you want to delete this resource?')\"><i class=\"fas fa-trash-alt\"></i></a></td></tr>";
+                        echo "<tr><td>" . htmlspecialchars($row['link']) . "</td><td>" . htmlspecialchars($row['subject_id']) . "</td><td><a href=\"?delete=" . $row['enroll_id'] . "\" onclick=\"return confirm('Are you sure you want to delete this resource?')\"><i class=\"fas fa-trash-alt\"></i></a></td></tr>";
                     }
                 } else {
                     echo "<tr><td colspan=\"3\">No data available</td></tr>";
