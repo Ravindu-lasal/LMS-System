@@ -72,8 +72,7 @@ if (isset($_POST['login_submit'])) {
       $_SESSION['admin_name'] = $row['fullname'];
       $_SESSION['admin_email'] = $row['email'];
       $_SESSION['admin_id'] = $row['id'];
-
-      header('location:./admin/index.html');
+      header('location:./admin/index.php');
     } elseif ($row['user_type'] == 'lecture') {
       $_SESSION['lec_name'] = $row['fullname'];
       $_SESSION['lec_email'] = $row['email'];
