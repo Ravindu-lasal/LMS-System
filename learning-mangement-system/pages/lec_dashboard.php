@@ -282,6 +282,31 @@ if (isset($_SESSION['lec_id'])) {
             margin-top: 20 px;
         }
 
+        .lec-infoa {
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .lec-infoa:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .lec-infoa p {
+            font-size: 17px;
+            margin-bottom: 12px;
+            color: #333333;
+        }
+
+        .lec-infoa strong {
+            font-weight: 700;
+            color: #0073e6;
+        }
+
         /* Responsive adjustments for smaller screens*/
         @media (max-width :768px) {
             .footer .container {
@@ -332,12 +357,14 @@ if (isset($_SESSION['lec_id'])) {
         <!-- Main Content -->
         <div class="main-content">
             <!-- lec Info -->
-            <div class="lec-info">
-                <p><strong>Full Name:</strong> <?php echo htmlspecialchars($lecturer['fullname']); ?></p>
-                <p><strong>Address:</strong> <?php echo htmlspecialchars($lecturer['address']); ?></p>
-                <p><strong>Email:</strong> <?php echo htmlspecialchars($lecturer['email']); ?></p>
-                <p><strong>Contact:</strong> <?php echo htmlspecialchars($lecturer['contact']); ?></p>
-                <p><strong>Register Date:</strong> <?php echo htmlspecialchars($lecturer['create_date']); ?></p>
+
+            <div class="lec-infoa" style="padding-top: 25px;">
+                <h2>Lecturer Information</h2>
+                <p style="margin-top: 12px;"><strong style="display: block; margin-top: 24px;">Full Name:</strong> <span style="font-weight: 400 ;"><?php echo htmlspecialchars($lecturer['fullname']); ?></span></p>
+                <p style="margin-top: 12px;"><strong style="display: block; margin-top: 24px;">Address:</strong> <span style="font-weight: 400 ;"><?php echo htmlspecialchars($lecturer['address']); ?></span></p>
+                <p style="margin-top: 12px;"><strong style="display: block; margin-top: 24px;">Email:</strong> <span style="font-weight: 400 ;"><?php echo htmlspecialchars($lecturer['email']); ?></span></p>
+                <p style="margin-top: 12px;"><strong style="display: block; margin-top: 24px;">Contact:</strong> <span style="font-weight: 400 ;"><?php echo htmlspecialchars($lecturer['contact']); ?></span></p>
+                <p style="margin-top: 12px;"><strong style="display: block; margin-top: 24px;">Register Date:</strong> <span style="font-weight: 400 ;"><?php echo htmlspecialchars($lecturer['create_date']); ?></span></p>
             </div>
 
             <!-- Subject Buttons -->
