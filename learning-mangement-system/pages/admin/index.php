@@ -315,7 +315,7 @@ $conn->close();
         <div class="container-fluid px-4">
           <div class="d-flex align-items-center justify-content-between small">
             <div class="text-muted">
-              Copyright &copy; Bus Managment System easy 2024
+              Copyright &copy; lecture Managment System 2024
             </div>
           </div>
         </div>

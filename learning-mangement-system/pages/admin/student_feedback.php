@@ -1,82 +1,57 @@
 <?php
 include_once "../../inc/db_connect.php";
-
 session_start();
 
-$sql = "SELECT * FROM users";
-$users = mysqli_query($conn, $sql);
+$filter_status = $_POST['filter_status'] ?? '';
+$search_username = $_POST['search_username'] ?? '';
 
-
-$user_type_filter = isset($_POST['user_type']) ? $_POST['user_type'] : '';
-
-$sql = "SELECT * FROM users";
-if (!empty($user_type_filter)) {
-    $sql .= " WHERE user_type = '" . mysqli_real_escape_string($conn, $user_type_filter) . "'";
-}
-$users = mysqli_query($conn, $sql);
-
-if (isset($_POST["id"])) {
-    $id = $_POST["id"];
-
-    if (isset($_POST["userType"])) {
-        $userType = $_POST["userType"];
-        $sql = "UPDATE users SET user_type = '$userType' WHERE id=$id";
-    } else {
-        $sql = "DELETE FROM users WHERE id=$id";
-    }
-
-    $conn->query($sql);
-    exit();
-}
-
-
-?>
-
-<?php
-// Check for selected filter status
-$filter_status = $_POST['filter_status'] ?? ''; // Default to empty (All)
-
-// Build the query based on filter status
+// Initialize Query
 $query = "SELECT f_id, f_name AS `Student Name`, f_email AS `Email`, comment AS `Message`, create_date AS `Date`, status FROM feedback";
-if ($filter_status === '1') {
-    $query .= " WHERE status = 1"; // Filter Published
-} elseif ($filter_status === '0') {
-    $query .= " WHERE status = 0"; // Filter Unpublished
-} // No WHERE clause for "All" (empty $filter_status)
 
-// Execute the query
+// Handle Filter Submission
+if (isset($_POST['apply_filter'])) {
+    if ($filter_status !== '') {
+        $query .= " WHERE status = " . intval($filter_status);
+    }
+}
+
+// Handle Search Submission
+if (isset($_POST['apply_search'])) {
+    if (!empty($search_username)) {
+        $condition = "f_name LIKE '%" . mysqli_real_escape_string($conn, $search_username) . "%'";
+        if (strpos($query, 'WHERE') !== false) {
+            $query .= " AND $condition";
+        } else {
+            $query .= " WHERE $condition";
+        }
+    }
+}
+
 $result = $conn->query($query);
 
-// Check for SQL errors
 if (!$result) {
-    die("Query failed: " . $conn->error); // Debugging error message
+    die("Query failed: " . $conn->error);
 }
 
 // Handle Publish Action
 if (isset($_POST['publish']) && isset($_POST['f_id'])) {
-    $feedback_id = intval($_POST['f_id']); // Get feedback ID
-    $updateQuery = "UPDATE feedback SET status = 1 WHERE f_id = $feedback_id"; // Update status to 1 (Published)
+    $feedback_id = intval($_POST['f_id']);
+    $updateQuery = "UPDATE feedback SET status = 1 WHERE f_id = $feedback_id";
 
     if ($conn->query($updateQuery)) {
-        // Redirect to the same page after successful update
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
-    } else {
-        $error_message = "Error publishing feedback: " . $conn->error; // Set error message
     }
 }
 
 // Handle Delete Action
 if (isset($_POST['delete']) && isset($_POST['f_id'])) {
-    $feedback_id = intval($_POST['f_id']); // Get feedback ID
-    $deleteQuery = "DELETE FROM feedback WHERE f_id = $feedback_id"; // Delete the feedback
+    $feedback_id = intval($_POST['f_id']);
+    $deleteQuery = "DELETE FROM feedback WHERE f_id = $feedback_id";
 
     if ($conn->query($deleteQuery)) {
-        // Redirect to the same page after successful deletion
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
-    } else {
-        $error_message = "Error deleting feedback: " . $conn->error; // Set error message
     }
 }
 ?>
@@ -88,14 +63,13 @@ if (isset($_POST['delete']) && isset($_POST['f_id'])) {
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Static Navigation - SB Admin</title>
+    <title>Feedback Management</title>
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+    <!-- Navigation -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="index.html">ADIMIN PANEL</a>
@@ -119,6 +93,7 @@ if (isset($_POST['delete']) && isset($_POST['f_id'])) {
             </li>
         </ul>
     </nav>
+
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -169,10 +144,12 @@ if (isset($_POST['delete']) && isset($_POST['f_id'])) {
                 </div>
             </nav>
         </div>
-        <div id="layoutSidenav_content">
 
+        <div id="layoutSidenav_content">
             <main>
                 <div class="container mt-5">
+                    <h2 class="mb-4">Feedback Management</h2>
+
                     <!-- Filter Form -->
                     <form method="POST" action="" class="mb-4">
                         <div class="row">
@@ -180,35 +157,32 @@ if (isset($_POST['delete']) && isset($_POST['f_id'])) {
                                 <label for="filterStatus" class="form-label">Filter by Status:</label>
                                 <select name="filter_status" id="filterStatus" class="form-select">
                                     <option value="" <?php echo $filter_status === '' ? 'selected' : ''; ?>>All</option>
-                                    <option value="1" <?php echo isset($_POST['filter_status']) && $_POST['filter_status'] == '1' ? 'selected' : ''; ?>>Published</option>
-                                    <option value="0" <?php echo isset($_POST['filter_status']) && $_POST['filter_status'] == '0' ? 'selected' : ''; ?>>Unpublished</option>
+                                    <option value="1" <?php echo $filter_status === '1' ? 'selected' : ''; ?>>Published</option>
+                                    <option value="0" <?php echo $filter_status === '0' ? 'selected' : ''; ?>>Unpublished</option>
                                 </select>
                             </div>
                             <div class="col-md-6 d-flex align-items-end">
-                                <button type="submit" class="btn btn-primary">Apply Filter</button>
+                                <button type="submit" name="apply_filter" class="btn btn-primary">Apply Filter</button>
                             </div>
                         </div>
                     </form>
 
-                    <?php
-                    // Determine the filter value
-                    $filter_status = isset($_POST['filter_status']) ? intval($_POST['filter_status']) : null;
+                    <!-- Search Form -->
+                    <form method="POST" action="" class="mb-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="searchUsername" class="form-label">Search by Username:</label>
+                                <input type="text" name="search_username" id="searchUsername" class="form-control"
+                                    value="<?php echo htmlspecialchars($search_username); ?>" placeholder="Enter username">
+                            </div>
+                            <div class="col-md-6 d-flex align-items-end">
+                                <button type="submit" name="apply_search" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
 
-                    // Modify query based on the filter
-                    $query = "SELECT f_id, f_name AS `Student Name`, f_email AS `Email`, comment AS `Message`, create_date AS `Date`, status FROM feedback";
-                    if ($filter_status !== null && $filter_status !== '') {
-                        $query .= " WHERE status = $filter_status";
-                    }
-
-                    $result = $conn->query($query);
-
-                    // Display error message if query fails
-                    if (!$result) {
-                        die("Query failed: " . $conn->error);
-                    }
-
-                    if ($result->num_rows > 0) {
-                    ?>
+                    <!-- Feedback Table -->
+                    <?php if ($result->num_rows > 0) { ?>
                         <table class="table table-bordered">
                             <thead class="table-dark">
                                 <tr>
@@ -220,10 +194,7 @@ if (isset($_POST['delete']) && isset($_POST['f_id'])) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                // Loop through each feedback
-                                while ($row = $result->fetch_assoc()) {
-                                ?>
+                                <?php while ($row = $result->fetch_assoc()) { ?>
                                     <tr>
                                         <td><?php echo htmlspecialchars($row['Student Name']); ?></td>
                                         <td><?php echo htmlspecialchars($row['Email']); ?></td>
@@ -232,53 +203,40 @@ if (isset($_POST['delete']) && isset($_POST['f_id'])) {
                                         <td>
                                             <form method="POST" action="">
                                                 <input type="hidden" name="f_id" value="<?php echo $row['f_id']; ?>">
-                                                <!-- Publish Button -->
-                                                <button
-                                                    type="submit"
-                                                    name="publish"
-                                                    class="btn btn-success <?php echo $row['status'] == 1 ? 'disabled' : ''; ?> "
+                                                <button type="submit" name="publish"
+                                                    class="btn btn-success <?php echo $row['status'] == 1 ? 'disabled' : ''; ?>"
                                                     <?php echo $row['status'] == 1 ? 'disabled' : ''; ?>>
                                                     Publish
                                                 </button>
-                                                <!-- Delete Button -->
-                                                <button
-                                                    type="submit"
-                                                    name="delete"
-                                                    class="btn btn-danger">
+                                                <button type="submit" name="delete" class="btn btn-danger">
                                                     Delete
                                                 </button>
                                             </form>
                                         </td>
                                     </tr>
-                                <?php
-                                }
-                                ?>
+                                <?php } ?>
                             </tbody>
                         </table>
-                    <?php
-                    } else {
-                        echo "<p class='text-center'>No feedback found for the selected filter.</p>";
-                    }
-                    ?>
+                    <?php } else { ?>
+                        <p class="text-center">No feedback found for the selected filters.</p>
+                    <?php } ?>
                 </div>
             </main>
 
-
-
+            <!-- Footer -->
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; lecture Managment System easy 2024</div>
-
+                        <div class="text-muted">Copyright &copy; Lecture Management System Easy 2024</div>
                     </div>
                 </div>
             </footer>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
-
-
 </body>
 
 </html>
