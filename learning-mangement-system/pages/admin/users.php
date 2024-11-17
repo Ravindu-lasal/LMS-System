@@ -140,9 +140,9 @@ if (isset($_POST["id"])) {
                         <thead class="bg-light">
                             <tr>
                                 <th>Name</th>
-                                <th>User Type</th>
-                                <th>User Type</th>
-                                <th>Position</th>
+                                <th>Email</th>
+                                <th>Current User Type</th>
+                                <th>Update User Type</th>
                                 <th>Actions</th>
 
                             </tr>
@@ -154,6 +154,7 @@ if (isset($_POST["id"])) {
                             ?>
 
                                 <tr>
+                                    <td><?php echo $user['fullname'] ?></td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <img
@@ -178,7 +179,7 @@ if (isset($_POST["id"])) {
                                             <option value="lecture">Lecture</option>
                                         </select>
                                     </td>
-                                    <td>Senior</td>
+
                                     <td>
                                         <button type="button" class="btn btn-link btn-sm btn-rounded">
                                             <span class="badge rounded-pill bg-danger" onclick="deleteUser(<?php echo $user['id'] ?>,event)">Delete</span>
