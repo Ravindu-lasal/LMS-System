@@ -146,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="border boder-5 boder-red col-7 ">
                         <h1 class="mt-4">Subject Details</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item">Dashboard</li>
                             <li class="breadcrumb-item active">Subject Details</li>
                         </ol>
                         <table class="table align-middle mb-0 bg-white ">

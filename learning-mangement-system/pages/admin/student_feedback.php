@@ -33,8 +33,18 @@ if (isset($_POST["id"])) {
 ?>
 
 <?php
-// Fetch Feedback Data from the database
+// Check for selected filter status
+$filter_status = $_POST['filter_status'] ?? ''; // Default to empty (All)
+
+// Build the query based on filter status
 $query = "SELECT f_id, f_name AS `Student Name`, f_email AS `Email`, comment AS `Message`, create_date AS `Date`, status FROM feedback";
+if ($filter_status === '1') {
+    $query .= " WHERE status = 1"; // Filter Published
+} elseif ($filter_status === '0') {
+    $query .= " WHERE status = 0"; // Filter Unpublished
+} // No WHERE clause for "All" (empty $filter_status)
+
+// Execute the query
 $result = $conn->query($query);
 
 // Check for SQL errors
@@ -169,7 +179,7 @@ if (isset($_POST['delete']) && isset($_POST['f_id'])) {
                             <div class="col-md-6">
                                 <label for="filterStatus" class="form-label">Filter by Status:</label>
                                 <select name="filter_status" id="filterStatus" class="form-select">
-                                    <option value="">All</option>
+                                    <option value="" <?php echo $filter_status === '' ? 'selected' : ''; ?>>All</option>
                                     <option value="1" <?php echo isset($_POST['filter_status']) && $_POST['filter_status'] == '1' ? 'selected' : ''; ?>>Published</option>
                                     <option value="0" <?php echo isset($_POST['filter_status']) && $_POST['filter_status'] == '0' ? 'selected' : ''; ?>>Unpublished</option>
                                 </select>
