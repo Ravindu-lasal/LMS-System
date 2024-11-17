@@ -49,8 +49,6 @@ if (isset($_POST['signUp_submit'])) {
 <!-- login fun  -->
 
 <?php
-
-
 session_start();
 
 if (isset($_POST['login_submit'])) {
@@ -72,14 +70,12 @@ if (isset($_POST['login_submit'])) {
       $_SESSION['admin_name'] = $row['fullname'];
       $_SESSION['admin_email'] = $row['email'];
       $_SESSION['admin_id'] = $row['id'];
-
-      header('location:./pages/admin/index.php');
-
+      header('location:./admin/index.php');
     } elseif ($row['user_type'] == 'lecture') {
       $_SESSION['lec_name'] = $row['fullname'];
       $_SESSION['lec_email'] = $row['email'];
       $_SESSION['lec_id'] = $row['id'];
-      header('location:./lec_dashboard.php');
+      header('location:./lecture/lec_dashboard.php');
     } elseif ($row['user_type'] == 'student') {
 
       $_SESSION['st_name'] = $row['fullname'];

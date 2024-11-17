@@ -1,5 +1,6 @@
 <?php
 include_once "../../inc/db_connect.php";
+
 session_start();
 
 $sql = "SELECT * FROM users";
@@ -29,6 +30,45 @@ if (isset($_POST["id"])) {
 }
 
 
+?>
+
+<?php
+// Fetch Feedback Data from the database
+$query = "SELECT f_id, f_name AS `Student Name`, f_email AS `Email`, comment AS `Message`, create_date AS `Date`, status FROM feedback";
+$result = $conn->query($query);
+
+// Check for SQL errors
+if (!$result) {
+    die("Query failed: " . $conn->error); // Debugging error message
+}
+
+// Handle Publish Action
+if (isset($_POST['publish']) && isset($_POST['f_id'])) {
+    $feedback_id = intval($_POST['f_id']); // Get feedback ID
+    $updateQuery = "UPDATE feedback SET status = 1 WHERE f_id = $feedback_id"; // Update status to 1 (Published)
+
+    if ($conn->query($updateQuery)) {
+        // Redirect to the same page after successful update
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    } else {
+        $error_message = "Error publishing feedback: " . $conn->error; // Set error message
+    }
+}
+
+// Handle Delete Action
+if (isset($_POST['delete']) && isset($_POST['f_id'])) {
+    $feedback_id = intval($_POST['f_id']); // Get feedback ID
+    $deleteQuery = "DELETE FROM feedback WHERE f_id = $feedback_id"; // Delete the feedback
+
+    if ($conn->query($deleteQuery)) {
+        // Redirect to the same page after successful deletion
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    } else {
+        $error_message = "Error deleting feedback: " . $conn->error; // Set error message
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -120,82 +160,101 @@ if (isset($_POST["id"])) {
             </nav>
         </div>
         <div id="layoutSidenav_content">
+
             <main>
-                <div class="container-fluid px-4">
+                <div class="container mt-5">
                     <!-- Filter Form -->
                     <form method="POST" action="" class="mb-4">
                         <div class="row">
-                            <div class="col-md-4">
-                                <label for="user_type" class="form-label">Filter by User Type:</label>
-                                <select class="form-select" id="user_type" name="user_type" onchange="this.form.submit()">
+                            <div class="col-md-6">
+                                <label for="filterStatus" class="form-label">Filter by Status:</label>
+                                <select name="filter_status" id="filterStatus" class="form-select">
                                     <option value="">All</option>
-                                    <option value="admin" <?= isset($_POST['user_type']) && $_POST['user_type'] == 'admin' ? 'selected' : '' ?>>Admin</option>
-                                    <option value="lecture" <?= isset($_POST['user_type']) && $_POST['user_type'] == 'lecture' ? 'selected' : '' ?>>Lecture</option>
-                                    <option value="student" <?= isset($_POST['user_type']) && $_POST['user_type'] == 'student' ? 'selected' : '' ?>>Student</option>
+                                    <option value="1" <?php echo isset($_POST['filter_status']) && $_POST['filter_status'] == '1' ? 'selected' : ''; ?>>Published</option>
+                                    <option value="0" <?php echo isset($_POST['filter_status']) && $_POST['filter_status'] == '0' ? 'selected' : ''; ?>>Unpublished</option>
                                 </select>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary">Apply Filter</button>
                             </div>
                         </div>
                     </form>
-                    <table class="table align-middle mb-0 bg-white">
-                        <thead class="bg-light">
-                            <tr>
-                                <th>Name</th>
-                                <th>User Type</th>
-                                <th>User Type</th>
-                                <th>Position</th>
-                                <th>Actions</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <?php
+                    // Determine the filter value
+                    $filter_status = isset($_POST['filter_status']) ? intval($_POST['filter_status']) : null;
 
-                            <?php
-                            foreach ($users as $user) {
-                            ?>
+                    // Modify query based on the filter
+                    $query = "SELECT f_id, f_name AS `Student Name`, f_email AS `Email`, comment AS `Message`, create_date AS `Date`, status FROM feedback";
+                    if ($filter_status !== null && $filter_status !== '') {
+                        $query .= " WHERE status = $filter_status";
+                    }
 
+                    $result = $conn->query($query);
+
+                    // Display error message if query fails
+                    if (!$result) {
+                        die("Query failed: " . $conn->error);
+                    }
+
+                    if ($result->num_rows > 0) {
+                    ?>
+                        <table class="table table-bordered">
+                            <thead class="table-dark">
                                 <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img
-                                                src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                                                alt=""
-                                                style="width: 45px; height: 45px"
-                                                class="rounded-circle" />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1"><?php ?></p>
-                                                <p class="text-muted mb-0"><?php echo $user['email'] ?></p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-<?php echo $user['user_type'] == 'admin' ? 'primary' : ($user['user_type'] == 'lecture' ? 'success' : 'info') ?>"><?php echo ucfirst($user['user_type']) ?></button>
-
-                                    </td>
-                                    <td>
-                                        <select class="form-select" aria-label="Default select example" onchange="updateUserType(<?php echo $user['id'] ?>,this.value)">
-                                            <option value="student">Student</option>
-                                            <option value="admin">Admin</option>
-                                            <option value="lecture">Lecture</option>
-                                        </select>
-                                    </td>
-                                    <td>Senior</td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                            <span class="badge rounded-pill bg-danger" onclick="deleteUser(<?php echo $user['id'] ?>,event)">Delete</span>
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                            <i class="fas fa-trash-alt" onclick="deleteUser(<?php echo $user['id'] ?>,event)"></i>
-                                        </button>
-                                    </td>
+                                    <th>Student Name</th>
+                                    <th>Email</th>
+                                    <th>Message</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
                                 </tr>
-                            <?php } ?>
-
-
-                        </tbody>
-                    </table>
-
+                            </thead>
+                            <tbody>
+                                <?php
+                                // Loop through each feedback
+                                while ($row = $result->fetch_assoc()) {
+                                ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($row['Student Name']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['Email']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['Message']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['Date']); ?></td>
+                                        <td>
+                                            <form method="POST" action="">
+                                                <input type="hidden" name="f_id" value="<?php echo $row['f_id']; ?>">
+                                                <!-- Publish Button -->
+                                                <button
+                                                    type="submit"
+                                                    name="publish"
+                                                    class="btn btn-success <?php echo $row['status'] == 1 ? 'disabled' : ''; ?> "
+                                                    <?php echo $row['status'] == 1 ? 'disabled' : ''; ?>>
+                                                    Publish
+                                                </button>
+                                                <!-- Delete Button -->
+                                                <button
+                                                    type="submit"
+                                                    name="delete"
+                                                    class="btn btn-danger">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    <?php
+                    } else {
+                        echo "<p class='text-center'>No feedback found for the selected filter.</p>";
+                    }
+                    ?>
                 </div>
             </main>
+
+
+
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
@@ -209,33 +268,7 @@ if (isset($_POST["id"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
 
-    <script>
-        function deleteUser(userId, event) {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'users.php');
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = () => {
-                if (xhr.status === 200) {
-                    window.location.reload();
-                }
-            }
-            xhr.send(`id=${userId}`);
 
-
-        }
-
-        function updateUserType(userId, userType) {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'users.php');
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = () => {
-                if (xhr.status === 200) {
-                    // window.location.reload();
-                }
-            }
-            xhr.send(`id=${userId}&userType=${userType}`);
-        }
-    </script>
 </body>
 
 </html>
