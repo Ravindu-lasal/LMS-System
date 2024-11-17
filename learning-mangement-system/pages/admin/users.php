@@ -2,33 +2,36 @@
 include_once "../../inc/db_connect.php";
 session_start();
 
+// Fetch all users initially
 $sql = "SELECT * FROM users";
 $users = mysqli_query($conn, $sql);
 
-
+// Filter by User Type
 $user_type_filter = isset($_POST['user_type']) ? $_POST['user_type'] : '';
+$email_search = isset($_POST['email_search']) ? $_POST['email_search'] : '';
 
-$sql = "SELECT * FROM users";
+$sql = "SELECT * FROM users WHERE 1=1";
 if (!empty($user_type_filter)) {
-    $sql .= " WHERE user_type = '" . mysqli_real_escape_string($conn, $user_type_filter) . "'";
+    $sql .= " AND user_type = '" . mysqli_real_escape_string($conn, $user_type_filter) . "'";
 }
+if (!empty($email_search)) {
+    $sql .= " AND email LIKE '%" . mysqli_real_escape_string($conn, $email_search) . "%'";
+}
+
 $users = mysqli_query($conn, $sql);
 
+// Handle Update or Delete Actions
 if (isset($_POST["id"])) {
     $id = $_POST["id"];
-
     if (isset($_POST["userType"])) {
         $userType = $_POST["userType"];
         $sql = "UPDATE users SET user_type = '$userType' WHERE id=$id";
     } else {
         $sql = "DELETE FROM users WHERE id=$id";
     }
-
     $conn->query($sql);
     exit();
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -40,12 +43,13 @@ if (isset($_POST["id"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Static Navigation - SB Admin</title>
+    <title>Manage Users</title>
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+    <!-- Navigation -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="index.html">ADIMIN PANEL</a>
@@ -69,6 +73,7 @@ if (isset($_POST["id"])) {
             </li>
         </ul>
     </nav>
+
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -122,20 +127,29 @@ if (isset($_POST["id"])) {
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <!-- Filter Form -->
-                    <form method="POST" action="" class="mb-4">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="user_type" class="form-label">Filter by User Type:</label>
-                                <select class="form-select" id="user_type" name="user_type" onchange="this.form.submit()">
-                                    <option value="">All</option>
-                                    <option value="admin" <?= isset($_POST['user_type']) && $_POST['user_type'] == 'admin' ? 'selected' : '' ?>>Admin</option>
-                                    <option value="lecture" <?= isset($_POST['user_type']) && $_POST['user_type'] == 'lecture' ? 'selected' : '' ?>>Lecture</option>
-                                    <option value="student" <?= isset($_POST['user_type']) && $_POST['user_type'] == 'student' ? 'selected' : '' ?>>Student</option>
-                                </select>
-                            </div>
+                    <h1 class="mt-4">Manage Users</h1>
+
+                    <!-- Filter and Search Forms -->
+                    <form method="POST" action="" class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label for="user_type" class="form-label">Filter by User Type:</label>
+                            <select class="form-select" id="user_type" name="user_type" onchange="this.form.submit()">
+                                <option value="">All</option>
+                                <option value="admin" <?= $user_type_filter == 'admin' ? 'selected' : '' ?>>Admin</option>
+                                <option value="lecture" <?= $user_type_filter == 'lecture' ? 'selected' : '' ?>>Lecture</option>
+                                <option value="student" <?= $user_type_filter == 'student' ? 'selected' : '' ?>>Student</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="email_search" class="form-label">Search by Email:</label>
+                            <input type="text" class="form-control" id="email_search" name="email_search" placeholder="Enter email" value="<?= htmlspecialchars($email_search) ?>">
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary">Search</button>
                         </div>
                     </form>
+
+                    <!-- Users Table -->
                     <table class="table align-middle mb-0 bg-white">
                         <thead class="bg-light">
                             <tr>
@@ -144,85 +158,56 @@ if (isset($_POST["id"])) {
                                 <th>Current User Type</th>
                                 <th>Update User Type</th>
                                 <th>Actions</th>
-
                             </tr>
                         </thead>
                         <tbody>
-
-                            <?php
-                            foreach ($users as $user) {
-                            ?>
-
+                            <?php foreach ($users as $user) { ?>
                                 <tr>
-                                    <td><?php echo $user['fullname'] ?></td>
+                                    <td><?= htmlspecialchars($user['fullname']) ?></td>
+                                    <td><?= htmlspecialchars($user['email']) ?></td>
                                     <td>
-                                        <div class="d-flex align-items-center">
-                                            <img
-                                                src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                                                alt=""
-                                                style="width: 45px; height: 45px"
-                                                class="rounded-circle" />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1"><?php ?></p>
-                                                <p class="text-muted mb-0"><?php echo $user['email'] ?></p>
-                                            </div>
-                                        </div>
+                                        <button class="btn btn-sm btn-<?= $user['user_type'] == 'admin' ? 'primary' : ($user['user_type'] == 'lecture' ? 'success' : 'info') ?>">
+                                            <?= ucfirst($user['user_type']) ?>
+                                        </button>
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-<?php echo $user['user_type'] == 'admin' ? 'primary' : ($user['user_type'] == 'lecture' ? 'success' : 'info') ?>"><?php echo ucfirst($user['user_type']) ?></button>
-
-                                    </td>
-                                    <td>
-                                        <select class="form-select" aria-label="Default select example" onchange="updateUserType(<?php echo $user['id'] ?>,this.value)">
-                                            <option value="student">Student</option>
-                                            <option value="admin">Admin</option>
-                                            <option value="lecture">Lecture</option>
+                                        <select class="form-select" onchange="updateUserType(<?= $user['id'] ?>, this.value)">
+                                            <option value="student" <?= $user['user_type'] == 'student' ? 'selected' : '' ?>>Student</option>
+                                            <option value="admin" <?= $user['user_type'] == 'admin' ? 'selected' : '' ?>>Admin</option>
+                                            <option value="lecture" <?= $user['user_type'] == 'lecture' ? 'selected' : '' ?>>Lecture</option>
                                         </select>
                                     </td>
-
                                     <td>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                            <span class="badge rounded-pill bg-danger" onclick="deleteUser(<?php echo $user['id'] ?>,event)">Delete</span>
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                            <i class="fas fa-trash-alt" onclick="deleteUser(<?php echo $user['id'] ?>,event)"></i>
-                                        </button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteUser(<?= $user['id'] ?>)">Delete</button>
                                     </td>
                                 </tr>
                             <?php } ?>
-
-
                         </tbody>
                     </table>
-
                 </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; lecture Managment System easy 2024</div>
-
+                        <div class="text-muted">Copyright &copy; Lecture Management System Easy 2024</div>
                     </div>
                 </div>
             </footer>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
 
     <script>
-        function deleteUser(userId, event) {
+        function deleteUser(userId) {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', 'users.php');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = () => {
-                if (xhr.status === 200) {
-                    window.location.reload();
-                }
-            }
+                if (xhr.status === 200) window.location.reload();
+            };
             xhr.send(`id=${userId}`);
-
-
         }
 
         function updateUserType(userId, userType) {
@@ -230,10 +215,8 @@ if (isset($_POST["id"])) {
             xhr.open('POST', 'users.php');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = () => {
-                if (xhr.status === 200) {
-                    // window.location.reload();
-                }
-            }
+                if (xhr.status === 200) window.location.reload();
+            };
             xhr.send(`id=${userId}&userType=${userType}`);
         }
     </script>
